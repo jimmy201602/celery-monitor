@@ -31,12 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'django_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'celerymonitor',
+    'monitor',
+    'bootstrap3',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -85,9 +89,11 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
+#LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+#TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -100,3 +106,48 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR,'static'),
+)
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR,'locale')
+]
+
+
+
+"""
+djano celery to accomplish some async job configuration.
+"""
+import djcelery
+from django.core.urlresolvers import reverse_lazy
+#BROKER_BACKEND = 'django'
+djcelery.setup_loader()
+BROKER_URL = 'redis://192.168.60.34:6380/6' #This variable used by function runoncefunc
+CELERY_RESULT_BACKEND = 'redis://192.168.60.34:6380/6'
+CELERY_ACCEPT_CONTENT = ['application/json']  
+CELERY_TASK_SERIALIZER = 'json'  
+CELERY_RESULT_SERIALIZER = 'json'  
+CELERY_TIMEZONE = 'Asia/Shanghai'
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_TASK_RESULT_EXPIRES = 1200
+CELERY_APPLICATION_PATH = 'celeryproj.celery.app'
+CELERY_ENABLE_UTC=True
+'''
+Task hard time limit in seconds.
+The worker processing the task will be killed and replaced with a new one when this is exceeded.
+'''
+CELERYD_TASK_TIME_LIMIT = 86400
+# CELERYD_TASK_TIME_LIMIT = 10
+'''
+Task soft time limit in seconds.
+The SoftTimeLimitExceeded exception will be raised when this is exceeded. The task can catch this to e.g.
+clean up before the hard time limit comes.
+'''
+CELERYD_TASK_SOFT_TIME_LIMIT = 80000

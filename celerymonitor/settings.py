@@ -128,8 +128,8 @@ import djcelery
 from django.core.urlresolvers import reverse_lazy
 #BROKER_BACKEND = 'django'
 djcelery.setup_loader()
-BROKER_URL = 'redis://192.168.60.34:6380/6' #This variable used by function runoncefunc
-CELERY_RESULT_BACKEND = 'redis://192.168.60.34:6380/6'
+BROKER_URL = 'redis://127.0.0.1:6379/1' #This variable used by function runoncefunc
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
 CELERY_ACCEPT_CONTENT = ['application/json']  
 CELERY_TASK_SERIALIZER = 'json'  
 CELERY_RESULT_SERIALIZER = 'json'  

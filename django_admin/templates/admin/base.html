@@ -59,9 +59,6 @@
                     </button>
                     {% block branding %}{% endblock %}
                 </div>
-                <div class="nav navbar-nav">
-                <li><a href="{% url 'workers_index' %}">主页</a></li>
-                </div>
                 <div id="header-navbar-collapse" class="navbar-collapse collapse navbar-{% if LANGUAGE_BIDI %}left{% else %}right{% endif %}">
                     <ul class="nav navbar-nav">
                         {% if has_permission %}

@@ -1,0 +1,11 @@
+//onclick="execute('revoke','{{ task.id }}')"
+<script>
+    function execute(command, parameter) {
+        var url = "{% url 'operations' %}";
+        url += "?command=" + command + "&parameter=" + parameter;
+        var a = document.createElement('a');
+        a.href = url;
+        document.body.appendChild(a);
+        a.click();
+    }
+</script>

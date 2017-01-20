@@ -124,5 +124,10 @@
 {% endblock %}
 </form>
 {% endblock %}
-
-
+{%block js%}
+  <script>
+  $(document).ready(function () {
+    $('#content-navbar-collapse').find('ul.dropdown-menu.pull-right.scrollable-dropdown-menu').css({height:"400px",overflow:"scroll"});
+  })
+  </script>
+{%endblock%}

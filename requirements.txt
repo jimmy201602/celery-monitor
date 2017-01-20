@@ -1,0 +1,11 @@
+amqp==1.4.9
+anyjson==0.3.3
+billiard==3.3.0.23
+celery==3.1.25
+Django==1.8.17
+django-bootstrap3==8.1.0
+django-celery==3.1.17
+kombu==3.0.37
+pytz==2016.10
+redis==2.10.5
+simplejson==3.10.0

@@ -1,30 +1,30 @@
 from django.conf import settings
 from celery.app.control import Control
 from celery import current_app
-app = current_app._get_current_object()
+#app = current_app._get_current_object()
 from .utils import nested_method,import_object
 import datetime
 from singleton import Singleton
 
 class CeleryClient(Singleton):
-	_application = None
+	#_application = None
 	_control = None
 	_default_queue = None
 	_queues = None
 	_response = None
 
 	def __init__(self):
-		self._application = app
-		self._control = Control(self._application)
-		self._default_queue = self._application.amqp.default_queue.name
+		#self._application = app
+		#self._control = Control(self._application)
+		self._default_queue = current_app.amqp.default_queue.name
 		self._routes = getattr(settings, 'CELERY_ROUTES', {})
-		self.response = self._control.inspect().stats()
-		self._queues = self._application.amqp.queues
-		self._inspect = self._control.inspect()
+		self.response = current_app.control.inspect().stats()
+		self._queues = current_app.amqp.queues
+		#self._inspect = self._control.inspect()
 		
-	@property
-	def application(self):
-		return self._application
+	#@property
+	#def application(self):
+		#return self._application
 
 	@property
 	def default_queue(self):
@@ -38,13 +38,13 @@ class CeleryClient(Singleton):
 		return self._queues
 	
 	def worker_stats(self):
-		return self._inspect.stats()
+		return current_app.control.inspect().stats()
 
-	def enable_events(self):
-		self._control.enable_events()
+	#def enable_events(self):
+		#self._control.enable_events()
 
-	def disable_events(self):
-		self._control.disable_events()
+	#def disable_events(self):
+		#self._control.disable_events()
 
 	def workers(self):
 		response = self.response
@@ -81,18 +81,17 @@ class CeleryClient(Singleton):
 		get worker statuses
 		:return:
 		"""
-		response = self._control.ping()
+		response = current_app.control.inspect().ping()
 		if not response:
 			return []
 		workers = {}
-		for w in response:
-			for k, v in w.iteritems():
-				for k_inner, v_inner in v.iteritems():
-					if k_inner == 'ok' and v_inner == 'pong':
-						workers[k] = 'Active'
-					else:
-						workers[k] = 'Passive'
-					break
+		for k, v in response.iteritems():
+			for k_inner, v_inner in v.iteritems():
+				if k_inner == 'ok' and v_inner == 'pong':
+					workers[k] = 'Active'
+				else:
+					workers[k] = 'Passive'
+				break
 		return workers
 
 	def active_queues(self):
@@ -101,7 +100,7 @@ class CeleryClient(Singleton):
 		get queue mappings with workers
 		:return:
 		"""
-		response = self._inspect.active_queues()
+		response = current_app.control.inspect().active_queues()
 		if not response:
 			return []
 		return response
@@ -111,7 +110,7 @@ class CeleryClient(Singleton):
 		get registered task list
 		:return:
 		"""
-		response = self._inspect.registered()
+		response = current_app.control.inspect().registered()
 		if not response:
 			return []
 		all_tasks = set()
@@ -132,7 +131,7 @@ class CeleryClient(Singleton):
 		'''
 		get worker registered task list
 		'''
-		response = self._inspect.registered_tasks()
+		response = current_app.control.inspect().registered_tasks()
 		new_response = dict()
 		for worker_name,all_tasks in response.items():
 			registered_tasks = list()
@@ -150,7 +149,7 @@ class CeleryClient(Singleton):
 		get active tasks which is running currently
 		:return:
 		"""
-		response = self._inspect.active()
+		response = current_app.control.inspect().active()
 		if not response:
 			return {}
 		for worker in response.keys():
@@ -164,7 +163,7 @@ class CeleryClient(Singleton):
 		:return:
 		"""
 
-		response = self._inspect.reserved()
+		response = current_app.control.inspect().reserved()
 		if not response:
 			return {}
 		for worker in response.keys():
@@ -179,7 +178,7 @@ class CeleryClient(Singleton):
 		:return:
 		"""
 
-		response = self._inspect.revoked()
+		response = current_app.control.inspect().revoked()
 		if not response:
 			return {}
 		#for worker in response.keys():

@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^accounts/logout/$',logout,name='loginout'),
     url(r'^monitor/', include('monitor.urls')),
     url(r'^$',workers_index.as_view()),
+    url(r'^grappelli/', include('grappelli.urls')),
 ]

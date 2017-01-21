@@ -46,6 +46,7 @@ class permission_modify(TaskMonitor):
     change_list_template = 'change_list.html'
     list_per_page = 15
     actions = None
+    #list_filter = None
     def has_module_permission(self, request):
         return True
     def get_changelist(self, request, **kwargs):

@@ -86,8 +86,15 @@ class queues_configuration(LoginRequiredMixin,View):
 
 class workers_index(LoginRequiredMixin,View):
     def get(self,request):
+        import time
+        a=time.time()
         instance = CeleryClient()
+        b=time.time()
         response = instance.workers() 
+        c=time.time()
+        #print b - a
+        #print c - b
+        #print c - a
         #print response
         #from django.utils import translation
         #user_language = 'zh-hans'
@@ -128,7 +135,7 @@ class task_configuration(LoginRequiredMixin,View):
 class worker_status(LoginRequiredMixin,View):
     def get(self,request):
         instance = CeleryClient()
-        stats = instance.worker_stats()
+        stats = instance.worker_stats
         #print stats
         #active_task=instance.active_tasks()
         #reserved_tasks=instance.reserved_tasks()
@@ -140,7 +147,7 @@ class worker_status(LoginRequiredMixin,View):
 class pool_configuration(LoginRequiredMixin,View):
     def get(self,request):
         instance = CeleryClient()
-        stats = instance.worker_stats()
+        stats = instance.worker_stats
         return render_to_response('pool_configuration.html',locals())
 
 class operations(LoginRequiredMixin,View):

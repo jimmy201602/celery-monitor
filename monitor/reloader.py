@@ -1,5 +1,6 @@
 # Python Module Reloader
 #
+#https://github.com/jparise/python-reloader
 # Copyright (c) 2009-2015 Jon Parise <jon@indelible.org>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy

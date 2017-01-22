@@ -41,12 +41,12 @@ class Mychangelist(ChangeList):
     def url_for_result(self, result):
         pk = getattr(result, self.pk_attname)
         return '/monitor/taskstate/%d/' %(pk)
-    
+
 class permission_modify(TaskMonitor):
     change_list_template = 'change_list.html'
     list_per_page = 15
     actions = None
-    #list_filter = None
+    #list_filter = ('state', 'name', ('tstamp',DateRangeFilter), 'eta', 'worker')
     def has_module_permission(self, request):
         return True
     def get_changelist(self, request, **kwargs):

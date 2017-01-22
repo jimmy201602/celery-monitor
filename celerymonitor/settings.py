@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'celerymonitor',
     'monitor',
     'bootstrap3',
+    #'daterange_filter',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -153,3 +154,5 @@ The SoftTimeLimitExceeded exception will be raised when this is exceeded. The ta
 clean up before the hard time limit comes.
 '''
 CELERYD_TASK_SOFT_TIME_LIMIT = 80000
+
+TEMPLATE_DEBUG = True

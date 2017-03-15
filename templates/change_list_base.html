@@ -113,13 +113,13 @@
           </a>
           <ul class="treeview-menu">          	
             <li class="active"><a href="{% url "workers_index" %}"><i class="fa fa-building"></i> {%trans 'Workers' %}</a></li>
-            <li class="active"><a href="{% url "worker_status" %}"><i class="fa fa-circle-o"></i> {%trans 'Worker Status' %}</a></li>
+            <li class="active"><a href="{% url "worker_status" %}"><i class="fa fa-check"></i> {%trans 'Worker Status' %}</a></li>
             <li class="active"><a href="{% url "pool_configuration" %}"><i class="fa fa-bars"></i> {%trans 'Pool Configuration' %}</a></li>
-                <li class="active"><a href="{% url "queues_configuration" %}"><i class="fa fa-wrench"></i> {%trans 'Queues Configuration' %}</a></li>
-            <li class="active"><a href="{% url "reserved_tasks_index" %}"><i class="fa fa-circle-o"></i> {%trans 'Reserved Tasks' %}</a></li>
-            <li class="active"><a href="{% url "active_tasks_index" %}"><i class="fa fa-circle-o"></i> {%trans 'Active Tasks' %}</a></li>
-            <li class="active"><a href="{% url "registered_tasks_index" %}"><i class="fa fa-circle-o"></i> {%trans 'Registered Tasks' %}</a></li>
-            <li class="active"><a href="{% url "periodictask_list" %}"><i class="fa fa-tasks"></i>{%trans 'Job list'%}</a></li>
+            <li class="active"><a href="{% url "queues_configuration" %}"><i class="fa fa-wrench"></i> {%trans 'Queues Configuration' %}</a></li>
+            <li class="active"><a href="{% url "reserved_tasks_index" %}"><i class="fa fa-ban"></i> {%trans 'Reserved Tasks' %}</a></li>
+            <li class="active"><a href="{% url "active_tasks_index" %}"><i class="fa fa-tasks"></i> {%trans 'Active Tasks' %}</a></li>
+            <li class="active"><a href="{% url "registered_tasks_index" %}"><i class="fa fa-registered"></i> {%trans 'Registered Tasks' %}</a></li>
+            <li class="active"><a href="{% url "periodictask_list" %}"><i class="fa fa-history"></i>{%trans 'Job list'%}</a></li>
             <li class="active"><a href="/monitor/taskstate/"><i class="fa fa-user-secret"></i>{%trans 'Task monitor'%}</a></li>
           </ul>
         </li>

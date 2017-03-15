@@ -615,6 +615,34 @@ function on_pool_cancel_consumer(destination,queue){
     }
     });
 };
+function run_task(name,id){
+    bootbox.confirm({
+    message: "Are you sure to run task " + name + " !",
+    buttons: {
+        confirm: {
+            label: 'Yes',
+            className: 'btn-danger'
+        },
+        cancel: {
+            label: 'Cancel',
+            className: 'btn-success'
+        }
+    },
+    callback: function (result) {
+        if (result == true){
+            $.get('{% url 'run_task' %}',{"name":name,"id":id}, function (ret) {
+            if (ret.status == 'success'){
+                  console.log(ret.message);
+                  toastr["success"](ret.message);
+            }else{
+                  toastr["error"](ret.message);
+            }
+        }, 'json');
+        }
+    }
+    });
+}
+</script>
 <!-- END Container -->
 
 </body>

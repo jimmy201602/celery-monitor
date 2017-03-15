@@ -4,7 +4,7 @@ from celery import current_app
 #app = current_app._get_current_object()
 from .utils import nested_method,import_object
 import datetime
-from singleton import Singleton
+from .singleton import Singleton
 
 class CeleryClient(Singleton):
 	_control = None
@@ -207,12 +207,10 @@ class CeleryClient(Singleton):
 			return {'status':'success','message':'Task %s has been assigned task id is %s.' %(task_name,response)}
 
 		def revoke(*args):
-			#print args
 			ctrl = args[0]
 			task_id = args[1]['task_id']
 			destination = args[1]['destination']
 			response = ctrl.revoke(task_id, terminate=True, signal="SIGKILL",reply=True,)
-			#print response
 			if 'ok' in response[0][destination] and 'tasks unknown' not in response[0][destination]['ok']:
 				response = {'status':'success','message':'Task %s on server %s has been revoked.' %(task_id,destination)}
 			else:
@@ -224,7 +222,6 @@ class CeleryClient(Singleton):
 			task_id = args[1]['task_id']
 			destination = args[1]['destination']
 			response = ctrl.revoke(task_id, terminate=True, signal="SIGTERM",reply=True,destination=[destination,],)
-			#print response
 			if 'ok' in response[0][destination] and 'tasks unknown' not in response[0][destination]['ok']:
 				response = {'status':'success','message':'Task %s on server %s has been terminated.' %(task_id,destination)}
 			else:
@@ -256,7 +253,6 @@ class CeleryClient(Singleton):
 			                          arguments={'queue': queue},
 			                          destination=[destination],
 			                          reply=True)
-			#print response
 			if response and 'ok' in response[0][destination]:
 				response = {'status':'success','message':'%s' %(response[0][destination]['ok'])}
 			else:
@@ -271,7 +267,6 @@ class CeleryClient(Singleton):
 			                          arguments={'queue': queue},
 			                          destination=[destination],
 			                          reply=True)
-			#print response
 			if response and 'ok' in response[0][destination]:
 				response = {'status':'success','message':'%s' %(response[0][destination]['ok'])}
 			else:
@@ -294,7 +289,6 @@ class CeleryClient(Singleton):
 			                          arguments={'reload': True},
 			                          destination=[destination],
 			                          reply=True)
-			#print response
 			if response and 'ok' in response[0][destination]:
 				response = {'status':'success','message':'Worker on %s reload started.' %(destination)}
 			elif response and 'error' in response[0][destination]:
@@ -307,7 +301,6 @@ class CeleryClient(Singleton):
 			ctrl = args[0]
 			destination = args[1]['destination']
 			response = ctrl.ping(destination=[destination],timeout=1.0)
-			#print response
 			if response and 'ok' in response[0][destination]:
 				response = {'status':'success','message':'Server %s is online.' %(destination)}
 			else:
@@ -331,7 +324,6 @@ class CeleryClient(Singleton):
 								           hard=hard,
 								           reply=True,
 								           destination=[destination])  				
-			#print response
 			if len(response) != 0 and response[0][destination].has_key('ok'):
 				response = {'status':'success','message':'%s' %(response[0][destination]['ok'])}
 			elif len(response) != 0 and response[0][destination].has_key('error'):
@@ -349,7 +341,6 @@ class CeleryClient(Singleton):
 						              arguments={'min': min_num, 'max': max_num},
 						              destination=[destination],
 						              reply=True)
-			#print response
 			if len(response) != 0 and response[0][destination].has_key('ok'):
 				response = {'status':'success','message':'%s' %(response[0][destination]['ok'])}
 			elif len(response) != 0 and response[0][destination].has_key('error'):
@@ -364,7 +355,6 @@ class CeleryClient(Singleton):
 			destination = args[1]['destination']
 			response = ctrl.pool_grow(n=grown_num, reply=True,
 						              destination=[destination])
-			#print response
 			if len(response) != 0 and response[0][destination].has_key('ok') and 'pool will grow' in response[0][destination]['ok']:
 				response = {'status':'success','message':'Pool on server %s will grow %d pool.' %(destination,grown_num)}
 			elif len(response) != 0 and response[0][destination].has_key('error'):
@@ -379,7 +369,6 @@ class CeleryClient(Singleton):
 			destination = args[1]['destination']					
 			response = ctrl.pool_shrink(n=shrink_num, reply=True,
 						                destination=[destination]) 
-			#print response
 			if len(response) != 0 and response[0][destination].has_key('error') and 'Can\'t shrink pool. All processes busy!' in response[0][destination]['error']:
 				response = {'status':'failure','message':'Can\'t shrink pool. All processes busy on server %s! Please try this later.' %(destination)}
 			elif len(response) != 0 and response[0][destination].has_key('ok') and 'pool will shrink' in response[0][destination]['ok']:

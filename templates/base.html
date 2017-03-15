@@ -124,9 +124,9 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>{%trans 'Version' %}</b> 2.3.8
+      <b>{%trans 'Version' %}</b> 0.1
     </div>
-    <strong>{%trans 'Copyright &copy; 2014-2016' %} <a href="http://almsaeedstudio.com">{%trans 'Almsaeed Studio' %}</a></strong> {%trans 'All rights reserved.' %}
+    <strong>{%trans 'Copyright &copy; 2014-2016' %} <a href="https://github.com/jimmy201602/celery-monitor">{%trans 'Celery monitor' %}</a></strong> {%trans 'All rights reserved.' %}
   </footer>
 
 
@@ -517,6 +517,33 @@ function on_pool_cancel_consumer(destination,queue){
 	}
 	});
 };
+function run_task(name,id){
+	bootbox.confirm({
+	message: "Are you sure to run task " + name + " !",
+	buttons: {
+		confirm: {
+			label: 'Yes',
+			className: 'btn-danger'
+		},
+		cancel: {
+			label: 'Cancel',
+			className: 'btn-success'
+		}
+	},
+	callback: function (result) {
+		if (result == true){
+			$.get('{% url 'run_task' %}',{"name":name,"id":id}, function (ret) {
+			if (ret.status == 'success'){
+				  console.log(ret.message);
+				  toastr["success"](ret.message);
+			}else{
+				  toastr["error"](ret.message);
+			}
+		}, 'json');
+		}
+	}
+	});
+}
 </script>
 </body>
 </html>

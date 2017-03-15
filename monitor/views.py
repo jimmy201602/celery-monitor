@@ -20,6 +20,8 @@ from django.contrib import messages
 from django.db import models
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django.contrib import admin
+from django.core.exceptions import ObjectDoesNotExist
+from celery import current_app
 
 class workers(LoginRequiredMixin,View):
     def get(self,request):
@@ -137,11 +139,12 @@ class worker_status(LoginRequiredMixin,View):
         instance = CeleryClient()
         stats = instance.worker_stats
         #print stats
-        #active_task=instance.active_tasks()
-        #reserved_tasks=instance.reserved_tasks()
+        active_tasks=instance.active_tasks()
+        reserved_tasks=instance.reserved_tasks()
         revoked_tasks=instance.revoked_tasks()
         #print revoked_tasks
-        #scheduled_tasks=instance.scheduled_tasks()
+        scheduled_tasks=instance.scheduled_tasks()
+        print active_tasks
         return render_to_response('worker_status.html',locals())
     
 class pool_configuration(LoginRequiredMixin,View):
@@ -239,3 +242,23 @@ class intervalcreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
 class taskstatedetail(LoginRequiredMixin,DetailView):
     model = TaskState
     template_name = 'taskstatedetail.html'
+
+class run_task(LoginRequiredMixin,View):
+    def get(self,request):
+        id = self.request.GET.get('id',None)
+        name = self.request.GET.get('name',None)
+        try:
+            querry_res = PeriodicTask.objects.get(id=id,name=name)
+            args = json.loads(querry_res.args)
+            kwargs = json.loads(querry_res.kwargs)
+            queue = querry_res.queue
+            routing_key = querry_res.routing_key
+            task_name = querry_res.task
+        except ObjectDoesNotExist:
+            response = {'status':'fail','message':'task name %s doesn\'t exits' %(name) }
+            return HttpResponse(json.dumps(response),content_type="application/json")
+        if queue == 'None' or queue == None:
+            queue = 'celery'
+        res = current_app.send_task(task_name,args=args,kwargs=kwargs,queue=queue,routing_key=routing_key)
+        response = {'status':'success','message':'task name %s has been running,task id is %s' %(name,res.id) }    
+        return HttpResponse(json.dumps(response),content_type="application/json")

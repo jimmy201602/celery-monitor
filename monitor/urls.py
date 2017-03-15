@@ -9,7 +9,7 @@ from monitor.views import (
     active_tasks_index,reserved_tasks_index,task_configuration,
     pool_configuration,worker_status,operations,periodictaskcreate,
     periodictaskupdate,periodictasklist,periodictaskdetail,
-    periodictaskdelete,intervalcreate,crontabcreate,taskstatedetail)
+    periodictaskdelete,intervalcreate,crontabcreate,taskstatedetail,run_task)
 urlpatterns = [
     
     url(r'^workers/$', workers.as_view(),name='workers'),
@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^interval/add/$', intervalcreate.as_view(), name='interval_add'),
     url(r'^crontab/add/$', crontabcreate.as_view(), name='crontab_add'),  
     url(r'^taskstate/(?P<pk>[0-9]+)/$', taskstatedetail.as_view(), name='taskstatedetail'),  
+    url(r'^run_task/$', run_task.as_view(), name='run_task'),
 ]
 
 class Mychangelist(ChangeList):

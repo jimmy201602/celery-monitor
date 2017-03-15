@@ -10,14 +10,13 @@
       "ordering": true,
       "info": true,
 	  "iDisplayLength": 50,
-      "autoWidth": true
+      "autoWidth": false
     });
   });
 </script>
 {%endblock%}
 {%block title%}{%trans 'periodictask list' %}{%endblock%}
 {%block content%}
-<!--<div class="navbar navbar-default">-->
 <div class="navbar-inner">	
 <div class="navbar-header">
                         
@@ -39,7 +38,7 @@
 	</ul>
 	</div>
 </div>
-<!--</div>			-->
+			
 			
     <section class="content">		
 						
@@ -61,6 +60,9 @@
                 <tr>
 					<th>{%trans 'name' %}</th>
 					<th>{%trans 'enabled' %}</th>
+					<th>{%trans 'args' %}</th>
+					<th>{%trans 'kwargs' %}</th>
+					<th>{%trans 'queue' %}</th>
 					<th>{%trans 'crontab' %}</th>
 					<th>{%trans 'action' %}</th>
                 </tr>
@@ -70,6 +72,9 @@
                 <tr>
                   <td>{{ element.name }}</td>
 				  <td>{{ element.enabled|yesno:"yes,no,nothing" }}</td>
+				  <td>{{ element.args }}</td>
+				  <td>{{ element.kwargs }}</td>
+				  <td>{{ element.queue }}</td>
 				  <td>{%if element.interval%}
 				  {{element.interval}}
 				  {%else%}
@@ -77,10 +82,10 @@
 				  {%endif%}
 				  </td>
 					<td data-editable="false" class="text-center">
-					<!--<a class="btn btn-xs btn-success pull-left" href="{% url 'periodictask_add'%}">{%trans 'add' %}</a>-->
-					<a class="btn btn-xs btn-primary pull-left" href="{% url 'periodictask_detail' element.id %}">{%trans 'detail' %}</a>
-					<a class="btn btn-xs btn-info pull-left" href="{% url 'periodictask_update' element.id %}">{%trans 'edit' %}</a>					
-				   <a class="btn btn-xs btn-danger pull-left" href="{% url 'periodictask_delete' element.id %}">{%trans 'delete' %}</a>
+					<a class="btn btn-xs btn-success" onclick="run_task('{{element.name}}','{{element.id}}');">{%trans 'run' %}</a>
+					<a class="btn btn-xs btn-primary" href="{% url 'periodictask_detail' element.id %}">{%trans 'detail' %}</a>
+					<a class="btn btn-xs btn-info" href="{% url 'periodictask_update' element.id %}">{%trans 'edit' %}</a>					
+				   <a class="btn btn-xs btn-danger" href="{% url 'periodictask_delete' element.id %}">{%trans 'delete' %}</a>
 				 </td>
                 </tr>
 				{% endfor %}

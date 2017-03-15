@@ -157,3 +157,13 @@ clean up before the hard time limit comes.
 CELERYD_TASK_SOFT_TIME_LIMIT = 80000
 
 #TEMPLATE_DEBUG = True
+#from celery.schedules import crontab
+
+#CELERYBEAT_SCHEDULE = {
+    ## Executes every Monday morning at 7:30 A.M
+    #'add-every-monday-morning': {
+        #'task': 'celerymonitor.celeryapp.debug_task',
+        #'schedule': crontab(hour=7, minute=30, day_of_week=1),
+        #'args': (16, 16),
+    #},
+#}

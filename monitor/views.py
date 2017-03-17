@@ -173,11 +173,12 @@ class periodictaskcreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
     def get_form(self, form_class):
         form = super(periodictaskcreate, self).get_form(form_class)
         rel_model = form.Meta.model
-        rel = rel_model._meta.get_field('crontab').rel        
+        rel = rel_model._meta.get_field('crontab').rel
+        irel = rel_model._meta.get_field('interval').rel
         form.fields['crontab'].widget = RelatedFieldWidgetWrapper(form.fields['crontab'].widget, rel, 
                                                                   admin.site, can_add_related=True, can_change_related=True)
-        form.fields['interval'].widget = RelatedFieldWidgetWrapper(form.fields['interval'].widget, rel, 
-                                                                          admin.site, can_add_related=True, can_change_related=True)        
+        form.fields['interval'].widget = RelatedFieldWidgetWrapper(form.fields['interval'].widget, irel, 
+                                                                   admin.site, can_add_related=True, can_change_related=True)          
         return form    
 
 class periodictaskupdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
@@ -189,11 +190,12 @@ class periodictaskupdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     def get_form(self, form_class):
         form = super(periodictaskupdate, self).get_form(form_class)
         rel_model = form.Meta.model
-        rel = rel_model._meta.get_field('crontab').rel        
+        rel = rel_model._meta.get_field('crontab').rel
+        irel = rel_model._meta.get_field('interval').rel      
         form.fields['crontab'].widget = RelatedFieldWidgetWrapper(form.fields['crontab'].widget, rel, 
                                                                   admin.site, can_add_related=True, can_change_related=True)
-        form.fields['interval'].widget = RelatedFieldWidgetWrapper(form.fields['interval'].widget, rel, 
-                                                                          admin.site, can_add_related=True, can_change_related=True)        
+        form.fields['interval'].widget = RelatedFieldWidgetWrapper(form.fields['interval'].widget, irel, 
+                                                                   admin.site, can_add_related=True, can_change_related=True)        
         return form
     
 class periodictasklist(LoginRequiredMixin,ListView):

@@ -22,6 +22,9 @@ from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
 from celery import current_app
+from django.db.models import Max,Count
+import time
+from django.utils.timezone import localtime
 
 class workers(LoginRequiredMixin,View):
     def get(self,request):
@@ -264,3 +267,54 @@ class run_task(LoginRequiredMixin,View):
         res = current_app.send_task(task_name,args=args,kwargs=kwargs,queue=queue,routing_key=routing_key)
         response = {'status':'success','message':'task name %s has been running,task id is %s' %(name,res.id) }    
         return HttpResponse(json.dumps(response),content_type="application/json")
+    
+class task_state_task_api(LoginRequiredMixin,View):
+    def get(self,request):
+        task_name = self.request.GET.get('task_name',None)
+        def tstamp(object):
+            return time.mktime(localtime(object.tstamp).timetuple())  * 1000
+        data = [[tstamp(i),i.runtime] for i in TaskState.objects.filter(name=task_name).exclude(result__contains='running').order_by('tstamp') ]
+        chart_data = {'name':task_name,'data':data}
+        return HttpResponse(json.dumps(chart_data),content_type="application/json")
+    
+class task_state_sucess_rate_api(LoginRequiredMixin,View):
+    def get(self,request):
+        task_name = self.request.GET.get('task_name',None)
+        data = list()
+        [ data.append({'name':i['state'],'y':int(i['total']),}) for i in TaskState.objects.filter(name=task_name).values('state').annotate(total=Count('state')).order_by('total')]
+        for i in data:
+            if i['name'] == 'SUCCESS':
+                i['color'] = '#66ff33' 
+            elif i['name'] == 'FAILURE':
+                i['color'] = 'red' 
+        chart_data = {'name':task_name,'data':data}
+        return HttpResponse(json.dumps(chart_data),content_type="application/json")
+
+class task_state_max_runtime_api(LoginRequiredMixin,View):
+    def get(self,request):
+        data = list()
+        task_name = list()
+        [[data.append(i['max_runtime']),task_name.append(i['name'])] for i in TaskState.objects.values('name').annotate(max_runtime=Max('runtime')).order_by('-max_runtime')[:20]]
+        return HttpResponse(json.dumps({'data':data,'task_name_cat':task_name}),content_type="application/json")
+
+class task_state_failure_count_api(LoginRequiredMixin,View):
+    def get(self,request):
+        data = list()
+        task_name = list()
+        [[data.append(i['failure_count']),task_name.append(i['name'])] for i in TaskState.objects.values('name').filter(state='FAILURE').annotate(failure_count=Count('state')).order_by('-failure_count')]
+        return HttpResponse(json.dumps({'data':data,'task_name_cat':task_name}),content_type="application/json")
+    
+class task_state_execute_count_api(LoginRequiredMixin,View):
+    def get(self,request):
+        task_name = self.request.GET.get('task_name',None)
+        query = TaskState.objects.filter(name=task_name).values('state')
+        failure_count = query.filter(state='FAILURE').count()
+        execute_count = query.filter(state='SUCCESS').count()
+        chart_data = {'name':task_name,'data':[failure_count,execute_count],'task_name_cat':['failure_count','execute_count']}
+        return HttpResponse(json.dumps(chart_data),content_type="application/json")
+    
+class task_state_chart(LoginRequiredMixin,View):
+    def get(self,request):
+        task_name_list=TaskState.objects.order_by().values('name').distinct()
+        print task_name_list
+        return render_to_response('taskstatechart.html',locals())

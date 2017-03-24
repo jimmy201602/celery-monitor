@@ -9,7 +9,9 @@ from monitor.views import (
     active_tasks_index,reserved_tasks_index,task_configuration,
     pool_configuration,worker_status,operations,periodictaskcreate,
     periodictaskupdate,periodictasklist,periodictaskdetail,
-    periodictaskdelete,intervalcreate,crontabcreate,taskstatedetail,run_task)
+    periodictaskdelete,intervalcreate,crontabcreate,taskstatedetail,run_task,
+    task_state_chart,task_state_task_api,task_state_max_runtime_api,task_state_sucess_rate_api,
+    task_state_execute_count_api,task_state_failure_count_api)
 urlpatterns = [
     
     url(r'^workers/$', workers.as_view(),name='workers'),
@@ -36,6 +38,12 @@ urlpatterns = [
     url(r'^crontab/add/$', crontabcreate.as_view(), name='crontab_add'),  
     url(r'^taskstate/(?P<pk>[0-9]+)/$', taskstatedetail.as_view(), name='taskstatedetail'),  
     url(r'^run_task/$', run_task.as_view(), name='run_task'),
+    url(r'^task_state_chart/$', task_state_chart.as_view(), name='task_state_chart'),  
+    url(r'^task_state_task_api/$', task_state_task_api.as_view(), name='task_state_task_api'),
+    url(r'^task_state_max_runtime_api/$', task_state_max_runtime_api.as_view(), name='task_state_max_runtime_api'),
+    url(r'^task_state_sucess_rate_api/$', task_state_sucess_rate_api.as_view(), name='task_state_sucess_rate_api'),
+    url(r'^task_state_execute_count_api/$', task_state_execute_count_api.as_view(), name='task_state_execute_count_api'),
+    url(r'^task_state_failure_count_api/$', task_state_failure_count_api.as_view(), name='task_state_failure_count_api'),    
 ]
 
 class Mychangelist(ChangeList):

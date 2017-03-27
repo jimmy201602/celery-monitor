@@ -61,7 +61,7 @@ CELERYBEAT_CHDIR="/path/celerymonitor"
 
 # Extra arguments to celerybeat
 CELERYBEAT_OPTS="--schedule=/var/run/celery/celerybeat-schedule"
-export DJANGO_SETTINGS_MODULE="celeryproj.settings"
+export DJANGO_SETTINGS_MODULE="celerymonitor.settings"
 
 CELERYD_CHDIR="/path/celerymonitor"
 ```

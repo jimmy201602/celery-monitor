@@ -42,7 +42,6 @@ INSTALLED_APPS = (
     'celerymonitor',
     'monitor',
     'bootstrap3',
-    #'daterange_filter',
 )
 
 MIDDLEWARE_CLASSES = (

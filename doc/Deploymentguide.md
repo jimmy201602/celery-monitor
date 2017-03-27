@@ -52,7 +52,7 @@ CELERY_BIN="/usr/local/python27/bin/celery"
 
 # App instance to use
 # comment out this line if you don't use an app
-CELERY_APP="proj"
+CELERY_APP="celerymonitor"
 # or fully qualified:
 #CELERY_APP="proj.tasks:app"
 

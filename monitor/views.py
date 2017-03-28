@@ -36,7 +36,7 @@ class workers(LoginRequiredMixin,View):
             return HttpResponse(json.dumps(response),content_type="application/json")
     def post(self,request):
         pass
-    
+
 class tasks(LoginRequiredMixin,View):
     def get(self,request):
         instance = CeleryClient()
@@ -47,7 +47,7 @@ class tasks(LoginRequiredMixin,View):
             return HttpResponse(json.dumps(response),content_type="application/json")
     def post(self,request):
         pass
-    
+
 class active_tasks(LoginRequiredMixin,View):
     def get(self,request):
         instance = CeleryClient()
@@ -95,7 +95,7 @@ class workers_index(LoginRequiredMixin,View):
         a=time.time()
         instance = CeleryClient()
         b=time.time()
-        response = instance.workers() 
+        response = instance.workers()
         c=time.time()
         #print b - a
         #print c - b
@@ -105,9 +105,9 @@ class workers_index(LoginRequiredMixin,View):
         #user_language = 'zh-hans'
         ###user_language = 'en'
         #translation.activate(user_language)
-        #request.session[translation.LANGUAGE_SESSION_KEY] = user_language	        
+        #request.session[translation.LANGUAGE_SESSION_KEY] = user_language
         return render_to_response('workers.html',locals())
-    
+
 class registered_tasks_index(LoginRequiredMixin,View):
     def get(self,request):
         instance = CeleryClient()
@@ -149,7 +149,7 @@ class worker_status(LoginRequiredMixin,View):
         scheduled_tasks=instance.scheduled_tasks()
         print active_tasks
         return render_to_response('worker_status.html',locals())
-    
+
 class pool_configuration(LoginRequiredMixin,View):
     def get(self,request):
         instance = CeleryClient()
@@ -178,34 +178,34 @@ class periodictaskcreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
         rel_model = form.Meta.model
         rel = rel_model._meta.get_field('crontab').rel
         irel = rel_model._meta.get_field('interval').rel
-        form.fields['crontab'].widget = RelatedFieldWidgetWrapper(form.fields['crontab'].widget, rel, 
+        form.fields['crontab'].widget = RelatedFieldWidgetWrapper(form.fields['crontab'].widget, rel,
                                                                   admin.site, can_add_related=True, can_change_related=True)
-        form.fields['interval'].widget = RelatedFieldWidgetWrapper(form.fields['interval'].widget, irel, 
-                                                                   admin.site, can_add_related=True, can_change_related=True)          
-        return form    
+        form.fields['interval'].widget = RelatedFieldWidgetWrapper(form.fields['interval'].widget, irel,
+                                                                   admin.site, can_add_related=True, can_change_related=True)
+        return form
 
 class periodictaskupdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     form_class = PeriodicTaskForm
     template_name = 'periodictaskupdate.html'
     success_url = reverse_lazy('periodictask_list')
     success_message = "%(name)s was updated successfully"
-    model = PeriodicTask   
+    model = PeriodicTask
     def get_form(self, form_class):
         form = super(periodictaskupdate, self).get_form(form_class)
         rel_model = form.Meta.model
         rel = rel_model._meta.get_field('crontab').rel
-        irel = rel_model._meta.get_field('interval').rel      
-        form.fields['crontab'].widget = RelatedFieldWidgetWrapper(form.fields['crontab'].widget, rel, 
+        irel = rel_model._meta.get_field('interval').rel
+        form.fields['crontab'].widget = RelatedFieldWidgetWrapper(form.fields['crontab'].widget, rel,
                                                                   admin.site, can_add_related=True, can_change_related=True)
-        form.fields['interval'].widget = RelatedFieldWidgetWrapper(form.fields['interval'].widget, irel, 
-                                                                   admin.site, can_add_related=True, can_change_related=True)        
+        form.fields['interval'].widget = RelatedFieldWidgetWrapper(form.fields['interval'].widget, irel,
+                                                                   admin.site, can_add_related=True, can_change_related=True)
         return form
-    
+
 class periodictasklist(LoginRequiredMixin,ListView):
     template_name = 'periodictasklist.html'
     def get_queryset(self):
         return PeriodicTask.objects.all()
-    
+
 class periodictaskdetail(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     form_class = PeriodicTaskForm
     template_name = 'periodictaskdetail.html'
@@ -213,7 +213,7 @@ class periodictaskdetail(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     success_message = "%(name)s was updated successfully"
     model = PeriodicTask
 
-    
+
 class periodictaskdelete(LoginRequiredMixin,DeleteView):
     template_name = 'periodictaskdelete.html'
     model = PeriodicTask
@@ -229,7 +229,7 @@ class periodictaskdelete(LoginRequiredMixin,DeleteView):
             messages.add_message(request, messages.ERROR, self.object.name + ' can not deleted because hosts use that ENV!')
 
         return HttpResponseRedirect(self.get_success_url())
-    
+
 class crontabcreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
     template_name = 'crontabcreate.html'
     success_url = reverse_lazy('crontab_add')
@@ -243,7 +243,7 @@ class intervalcreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
     success_message = "interval was created successfully"
     model = IntervalSchedule
     fields=['every','period']
-  
+
 class taskstatedetail(LoginRequiredMixin,DetailView):
     model = TaskState
     template_name = 'taskstatedetail.html'
@@ -265,9 +265,9 @@ class run_task(LoginRequiredMixin,View):
         if queue == 'None' or queue == None:
             queue = 'celery'
         res = current_app.send_task(task_name,args=args,kwargs=kwargs,queue=queue,routing_key=routing_key)
-        response = {'status':'success','message':'task name %s has been running,task id is %s' %(name,res.id) }    
+        response = {'status':'success','message':'task name %s has been running,task id is %s' %(name,res.id) }
         return HttpResponse(json.dumps(response),content_type="application/json")
-    
+
 class task_state_task_api(LoginRequiredMixin,View):
     def get(self,request):
         task_name = self.request.GET.get('task_name',None)
@@ -276,7 +276,7 @@ class task_state_task_api(LoginRequiredMixin,View):
         data = [[tstamp(i),i.runtime] for i in TaskState.objects.filter(name=task_name).exclude(result__contains='running').order_by('tstamp') ]
         chart_data = {'name':task_name,'data':data}
         return HttpResponse(json.dumps(chart_data),content_type="application/json")
-    
+
 class task_state_sucess_rate_api(LoginRequiredMixin,View):
     def get(self,request):
         task_name = self.request.GET.get('task_name',None)
@@ -284,9 +284,9 @@ class task_state_sucess_rate_api(LoginRequiredMixin,View):
         [ data.append({'name':i['state'],'y':int(i['total']),}) for i in TaskState.objects.filter(name=task_name).values('state').annotate(total=Count('state')).order_by('total')]
         for i in data:
             if i['name'] == 'SUCCESS':
-                i['color'] = '#66ff33' 
+                i['color'] = '#66ff33'
             elif i['name'] == 'FAILURE':
-                i['color'] = 'red' 
+                i['color'] = 'red'
         chart_data = {'name':task_name,'data':data}
         return HttpResponse(json.dumps(chart_data),content_type="application/json")
 
@@ -303,7 +303,7 @@ class task_state_failure_count_api(LoginRequiredMixin,View):
         task_name = list()
         [[data.append(i['failure_count']),task_name.append(i['name'])] for i in TaskState.objects.values('name').filter(state='FAILURE').annotate(failure_count=Count('state')).order_by('-failure_count')]
         return HttpResponse(json.dumps({'data':data,'task_name_cat':task_name}),content_type="application/json")
-    
+
 class task_state_execute_count_api(LoginRequiredMixin,View):
     def get(self,request):
         task_name = self.request.GET.get('task_name',None)
@@ -312,7 +312,7 @@ class task_state_execute_count_api(LoginRequiredMixin,View):
         execute_count = query.filter(state='SUCCESS').count()
         chart_data = {'name':task_name,'data':[failure_count,execute_count],'task_name_cat':['failure_count','execute_count']}
         return HttpResponse(json.dumps(chart_data),content_type="application/json")
-    
+
 class task_state_chart(LoginRequiredMixin,View):
     def get(self,request):
         task_name_list=TaskState.objects.order_by().values('name').distinct()

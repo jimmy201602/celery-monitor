@@ -316,5 +316,5 @@ class task_state_execute_count_api(LoginRequiredMixin,View):
 class task_state_chart(LoginRequiredMixin,View):
     def get(self,request):
         task_name_list=TaskState.objects.order_by().values('name').distinct()
-        print task_name_list
+        #print task_name_list
         return render_to_response('taskstatechart.html',locals())

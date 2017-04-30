@@ -147,7 +147,7 @@ class worker_status(LoginRequiredMixin,View):
         revoked_tasks=instance.revoked_tasks()
         #print revoked_tasks
         scheduled_tasks=instance.scheduled_tasks()
-        print active_tasks
+        #print active_tasks
         return render_to_response('worker_status.html',locals())
 
 class pool_configuration(LoginRequiredMixin,View):

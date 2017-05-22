@@ -24,22 +24,54 @@
 <script>
     $('.select2').select2();
 </script>
+<script type="text/javascript">
+	  $(function () {
+	  $('.datetime').daterangepicker({
+	  timePicker: true, 
+	  timePickerIncrement: 1, 
+	  format: 'YYYY-MM-DD HH:mm:ss',
+		timePickerSeconds:true,
+		autoApply:true,
+		singleDatePicker:true,  
+		timePicker24Hour:true,    
+		clearStatus:false,
+		autoUpdateInput: false,
+		locale: {
+			"format": 'YYYY-MM-DD HH:mm:ss'
+		}
+	  });
+	  
+		$('.datetime').on('apply.daterangepicker', function(ev, picker) {
+			$(this).val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
+		});
+  
+		$('.datetime').on('cancel.daterangepicker', function(ev, picker) {
+		$(this).val('');
+		});
+	  });  
+</script>
 <script type="application/javascript">
 $(document).ready(function() {
 $(".select2").bind("change", function() {
 	load_chart(this.options[this.selectedIndex].value); 
  });
+$("#query").bind("click", function() {
+	task_name = $('.select2').val();
+	load_chart(task_name); 
+ }); 
 function load_chart(task_name) {
 		chart = new Highcharts.Chart('task_chart',options);
-		$.getJSON('{% url "task_state_task_api"%}',{'task_name':task_name}, function (data) {
+		start_time = $('#id_start_time').val();
+		end_time =  $('#id_end_time').val();
+		$.getJSON('{% url "task_state_task_api"%}',{'task_name':task_name,'start_time':start_time,'end_time':end_time}, function (data) {
 			chart.setTitle({text: data.name});
 			chart.addSeries({
 					name: data.name,
 					data: data.data,
 			});
-   	});
+	});
 		piechart = new Highcharts.Chart('pieChart',piechartoption);
-		$.getJSON('{% url "task_state_sucess_rate_api"%}',{'task_name':task_name}, function (datas) {
+		$.getJSON('{% url "task_state_sucess_rate_api"%}',{'task_name':task_name,'start_time':start_time,'end_time':end_time}, function (datas) {
 			piechart.xAxis[0].setCategories(datas.task_name_cat, true, true);
 			piechart.setTitle({text: datas.name});
 			piechart.addSeries({
@@ -49,7 +81,7 @@ function load_chart(task_name) {
 			});
 		});
 		execute_bar_chart = new Highcharts.Chart('execute_bar_chart',coulumchartoption);
-		$.getJSON('{% url "task_state_execute_count_api"%}',{'task_name':task_name}, function (data) {
+		$.getJSON('{% url "task_state_execute_count_api"%}',{'task_name':task_name,'start_time':start_time,'end_time':end_time}, function (data) {
 			execute_bar_chart.xAxis[0].setCategories(data.task_name_cat, true, true);
 			execute_bar_chart.setTitle({text: data.name});
 			execute_bar_chart.yAxis[0].setTitle({ text: "" });
@@ -59,6 +91,28 @@ function load_chart(task_name) {
 				pointHeight: 28,
 			});
 		});  		
+		columnchart = new Highcharts.Chart('max_runtime_chart',coulumchartoption);
+		$.getJSON('{% url "task_state_max_runtime_api"%}',{'task_name':task_name,'start_time':start_time,'end_time':end_time}, function (datas) {
+			columnchart.xAxis[0].setCategories(datas.task_name_cat, true, true);
+			//columnchart.setSize(500,1000);
+			columnchart.addSeries({
+				name: 'Max runtime',
+				data: datas.data,
+				pointHeight: 28,
+			});
+	});
+		var failure_count_chart;
+		failure_count_chart = new Highcharts.Chart('failure_count_chart',coulumchartoption);
+		$.getJSON('{% url "task_state_failure_count_api"%}',{'task_name':task_name,'start_time':start_time,'end_time':end_time}, function (data) {
+		failure_count_chart.xAxis[0].setCategories(data.task_name_cat, true, true);
+		//columnchart.setSize(500,1000);
+		failure_count_chart.setTitle({text: 'Task Failure Count'});
+		failure_count_chart.addSeries({
+			name: 'Task Failure Count',
+			data: data.data,
+			pointHeight: 28,
+		});
+	});
 }
 
 Highcharts.setOptions({
@@ -255,7 +309,7 @@ $.getJSON('{% url "task_state_sucess_rate_api"%}',{'task_name':'celerymonitor.ce
     <!-- Main content -->
     <section class="content">
 		<div class="col-md-12">
-			<div class="col-md-8">
+			<div class="col-md-12">
     			<form class="form-inline" role="form">
       			<div class="form-group form-group-sm">
 						<label for="task_name">Task Name:</label>
@@ -265,6 +319,17 @@ $.getJSON('{% url "task_state_sucess_rate_api"%}',{'task_name':'celerymonitor.ce
 							{% endfor %}
 						</select>  
       			</div>
+				<div class="form-group form-group-sm">
+						<label for="start_time">Start Time:</label>
+						<input class="form-control input-sm datetime" id="id_start_time" maxlength="" name="start_time" placeholder="Start Time" required="required" value="{{ start_time }}" type="text">
+				</div>
+				<div class="form-group form-group-sm">
+						<label for="end_time">End Time:</label>
+						<input class="form-control input-sm datetime" id="id_end_time" maxlength="" name="end_time" placeholder="End Time" required="required" value="{{ end_time }}" type="text">
+				</div>
+				<div class="form-group form-group-sm">
+					<a class="btn btn-block btn-success btn-sm" id="query">Query</a>
+				</div>
      			</form>
 			</div> 
 		</div> 

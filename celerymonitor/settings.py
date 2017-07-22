@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'celerymonitor',
     'monitor',
     'bootstrap3',
+    'channels',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -166,3 +167,14 @@ CELERYD_TASK_SOFT_TIME_LIMIT = 80000
         #'args': (16, 16),
     #},
 #}
+
+#channels settings to support real time monitor
+CHANNEL_LAYERS = {
+    "default": {
+       "BACKEND": "asgi_redis.RedisChannelLayer",  # use redis backend
+       "CONFIG": {
+           "hosts": [("localhost", 6379)],  # set redis address
+           },
+       "ROUTING": "celerymonitor.routing.channel_routing",  # load routing from our routing.py file
+       },
+}

@@ -19,7 +19,6 @@ incremental==17.5.0
 kombu==3.0.37
 msgpack-python==0.4.8
 packaging==16.8
-pkg-resources==0.0.0
 pyparsing==2.2.0
 pytz==2016.10
 redis==2.10.5

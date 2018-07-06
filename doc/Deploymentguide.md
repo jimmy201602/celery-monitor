@@ -807,3 +807,7 @@ servivr celeryd start
 ```sh
 service celerybeat start
 ```
+# 9 start celery task monitor
+```sh
+python manage.py celerycam
+```

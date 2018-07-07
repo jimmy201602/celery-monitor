@@ -23,6 +23,7 @@
           </ul>
         <div class="tab-content">
         <!-- /.tab-pane -->
+	{% if response.items %}
         {% for item,value in response.items%}
             {%now 'isu' as randomnum%}
             {%if forloop.counter == 1%}
@@ -88,6 +89,9 @@
             </div>
             <!-- /.tab-pane -->
         {% endfor %}
+	{% else %}
+	    {% trans 'No active worker!' %}
+	{% endif %}
         </div>
         <!-- /.tab-content -->
         </div>

@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-
+from django.utils.translation import gettext_lazy as _
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -173,8 +173,13 @@ CHANNEL_LAYERS = {
     "default": {
        "BACKEND": "asgi_redis.RedisChannelLayer",  # use redis backend
        "CONFIG": {
-           "hosts": [("localhost", 6379)],  # set redis address
+           "hosts": [("127.0.0.1", 6379)],  # set redis address
            },
        "ROUTING": "celerymonitor.routing.channel_routing",  # load routing from our routing.py file
        },
 }
+
+LANGUAGES = [
+    ('zh-hans', _('Simple Chinese')),
+    ('en', _('English')),
+]

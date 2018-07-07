@@ -19,6 +19,7 @@
           </ul>
         <div class="tab-content">
         <!-- /.tab-pane -->
+	{% if response.items %}
         {% for item,value in response.items%}
             {%if forloop.counter == 1%}
             <div class="tab-pane active" id="{{forloop.counter}}">
@@ -64,6 +65,9 @@
             </div>
             <!-- /.tab-pane -->
         {% endfor %}
+	{% else %}
+	    {% trans 'No active worker!' %}
+	{% endif %}
         </div>
         <!-- /.tab-content -->
         </div>

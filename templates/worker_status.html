@@ -26,6 +26,7 @@
           </ul>
         <div class="tab-content">
         <!-- /.tab-pane -->
+        {% if stats.items %}
         {% for item,value in stats.items%}
             {%if forloop.counter == 1%}
             <div class="tab-pane active" id="completed{{forloop.counter}}">
@@ -59,6 +60,9 @@
             </div>
             <!-- /.tab-pane -->
         {% endfor %}
+        {% else %}
+        {% trans 'No active worker!' %}
+        {% endif %}
         </div>
         <!-- /.tab-content -->
         </div>
@@ -90,6 +94,7 @@
           </ul>
         <div class="tab-content">
         <!-- /.tab-pane -->
+        {% if active_tasks.items %}
         {% for item,value in active_tasks.items%}
             {%if forloop.counter == 1%}
             <div class="tab-pane active" id="active{{forloop.counter}}">
@@ -134,6 +139,9 @@
             </div>
             <!-- /.tab-pane -->
         {% endfor %}
+        {% else %}
+        {% trans 'No active worker!' %}
+        {% endif %}
         </div>
          <!--/.tab-content -->
         </div>
@@ -165,6 +173,7 @@
           </ul>
         <div class="tab-content">
         <!-- /.tab-pane -->
+        {% if scheduled_tasks.items %}
         {% for item,value in scheduled_tasks.items%}
             {%if forloop.counter == 1%}
             <div class="tab-pane active" id="scheduled{{forloop.counter}}">
@@ -202,6 +211,9 @@
             </div>
             <!-- /.tab-pane -->
         {% endfor %}
+        {% else %}
+        {% trans 'No active worker!' %}
+        {% endif %}
         </div>
         <!--<!-- /.tab-content -->
         </div>
@@ -234,6 +246,7 @@
           </ul>
         <div class="tab-content">
         <!-- /.tab-pane -->
+        {% if reserved_tasks.items %}
         {% for item,value in reserved_tasks.items %}
             {%if forloop.counter == 1%}
             <div class="tab-pane active" id="reserved{{forloop.counter}}">
@@ -272,6 +285,9 @@
             </div>
             <!-- /.tab-pane -->
         {% endfor %}
+        {% else %}
+        {% trans 'No active worker!' %}
+        {% endif %}
         </div>
         <!-- /.tab-content -->
         </div>
@@ -305,6 +321,7 @@
           </ul>
         <div class="tab-content">
         <!-- /.tab-pane -->
+        {% if revoked_tasks.items %}
         {% for item,value in revoked_tasks.items%}
             {%if forloop.counter == 1%}
             <div class="tab-pane active" id="revoked{{forloop.counter}}">
@@ -342,6 +359,9 @@
             </div>
             <!-- /.tab-pane -->
         {% endfor %}
+        {% else %}
+        {% trans 'No active worker!' %}
+        {% endif %}
         </div>
         <!-- /.tab-content -->
         </div>

@@ -290,7 +290,7 @@ msgstr "任务列表"
 
 #: monitor/templates/monitor/periodictasklist.html:35
 msgid "Add new job"
-msgstr "新增认为有"
+msgstr "新增任务"
 
 #: monitor/templates/monitor/periodictasklist.html:63
 #: monitor/templates/monitor/worker_status.html:115
@@ -310,7 +310,7 @@ msgstr ""
 
 #: monitor/templates/monitor/periodictasklist.html:67
 msgid "action"
-msgstr ""
+msgstr "操作"
 
 #: monitor/templates/monitor/periodictasklist.html:85
 msgid "run"
@@ -361,62 +361,62 @@ msgstr ""
 
 #: monitor/templates/monitor/pool_configuration.html:64
 msgid "Max concurrency"
-msgstr ""
+msgstr "最大并发数"
 
 #: monitor/templates/monitor/pool_configuration.html:69
 msgid "Worker PID"
-msgstr ""
+msgstr "Worker进程id"
 
 #: monitor/templates/monitor/pool_configuration.html:79
 msgid "Pool size control"
-msgstr ""
+msgstr "Pool大小控制"
 
 #: monitor/templates/monitor/pool_configuration.html:81
 msgid "Pool size"
-msgstr ""
+msgstr "Pool大小"
 
 #: monitor/templates/monitor/pool_configuration.html:91
 msgid "Grow"
-msgstr ""
+msgstr "增加"
 
 #: monitor/templates/monitor/pool_configuration.html:92
 msgid "Shrink"
-msgstr ""
+msgstr "缩小"
 
 #: monitor/templates/monitor/pool_configuration.html:97
 msgid "Min/Max autoscale"
-msgstr ""
+msgstr "最小/最大自动扩展"
 
 #: monitor/templates/monitor/pool_configuration.html:102
 #: monitor/templates/monitor/task_configuration.html:56
 msgid "Apply"
-msgstr ""
+msgstr "应用"
 
 #: monitor/templates/monitor/queues_configuration.html:18
 #: monitor/templates/monitor/queues_configuration.html:20
 msgid "Worker queues options"
-msgstr ""
+msgstr "Worker队列可选项"
 
 #: monitor/templates/monitor/queues_configuration.html:38
 msgid "Pool consumer control"
-msgstr ""
+msgstr "Pool消费者控制"
 
 #: monitor/templates/monitor/queues_configuration.html:41
 #: monitor/templates/monitor/worker_status.html:80
 msgid "Active"
-msgstr ""
+msgstr "激活"
 
 #: monitor/templates/monitor/queues_configuration.html:41
 msgid "queues being consumed from"
-msgstr ""
+msgstr "队列被消费自"
 
 #: monitor/templates/monitor/queues_configuration.html:45
 msgid "Add Consumer"
-msgstr ""
+msgstr "新增消费者"
 
 #: monitor/templates/monitor/queues_configuration.html:58
 msgid "Exclusive"
-msgstr ""
+msgstr "独享"
 
 #: monitor/templates/monitor/queues_configuration.html:59
 msgid "Durable"
@@ -424,63 +424,63 @@ msgstr ""
 
 #: monitor/templates/monitor/queues_configuration.html:60
 msgid "Routing key"
-msgstr ""
+msgstr "路由键"
 
 #: monitor/templates/monitor/queues_configuration.html:61
 msgid "No ACK"
-msgstr ""
+msgstr "无需确认"
 
 #: monitor/templates/monitor/queues_configuration.html:62
 msgid "Alias"
-msgstr ""
+msgstr "别名"
 
 #: monitor/templates/monitor/queues_configuration.html:63
 msgid "Queue arguments"
-msgstr ""
+msgstr "队列参数"
 
 #: monitor/templates/monitor/queues_configuration.html:64
 msgid "Binding arguments"
-msgstr ""
+msgstr "绑定的参数"
 
 #: monitor/templates/monitor/queues_configuration.html:65
 msgid "Auto delete"
-msgstr ""
+msgstr "自动删除"
 
 #: monitor/templates/monitor/queues_configuration.html:66
 #: monitor/templates/monitor/worker_status.html:117
 #: monitor/templates/monitor/worker_status.html:266
 msgid "Operation"
-msgstr ""
+msgstr "操作"
 
 #: monitor/templates/monitor/queues_configuration.html:81
 msgid "Cancel Consumer"
-msgstr ""
+msgstr "取消消费者"
 
 #: monitor/templates/monitor/registered_tasks.html:22
 #: monitor/templates/monitor/task_configuration.html:49
 msgid "execute"
-msgstr ""
+msgstr "执行"
 
 #: monitor/templates/monitor/task_configuration.html:15
 #: monitor/templates/monitor/task_configuration.html:17
 msgid "Worker task configuration"
-msgstr ""
+msgstr "worke任务配置"
 
 #: monitor/templates/monitor/task_configuration.html:39
 msgid "Rate limit"
-msgstr ""
+msgstr "频率限制"
 
 #: monitor/templates/monitor/task_configuration.html:66
 msgid "Soft"
-msgstr ""
+msgstr "软"
 
 #: monitor/templates/monitor/task_configuration.html:67
 msgid "Hard"
-msgstr ""
+msgstr "硬"
 
 #: monitor/templates/monitor/tasklist.html:3
 msgid "Task list"
-msgstr ""
+msgstr "任务列表"
 
 #: monitor/templates/monitor/tasklist.html:12
 msgid "ID"
@@ -488,23 +488,23 @@ msgstr ""
 
 #: monitor/templates/monitor/tasklist.html:13
 msgid "Runtime (second)"
-msgstr ""
+msgstr "运行时间(秒)"
 
 #: monitor/templates/monitor/tasklist.html:14
 msgid "State"
-msgstr ""
+msgstr "状态"
 
 #: monitor/templates/monitor/tasklist.html:15
 msgid "Recieved time"
-msgstr ""
+msgstr "获取时间"
 
 #: monitor/templates/monitor/taskstatechart.html:3
 msgid "Task state history chart"
-msgstr ""
+msgstr "任务状态历史图表"
 
 #: monitor/templates/monitor/taskstatedetail.html:19
 msgid "state"
-msgstr ""
+msgstr "状态"
 
 #: monitor/templates/monitor/taskstatedetail.html:34
 #: monitor/templates/monitor/worker_status.html:111
@@ -528,7 +528,7 @@ msgstr ""
 
 #: monitor/templates/monitor/taskstatedetail.html:104
 msgid "Execution time"
-msgstr ""
+msgstr "执行时间"
 
 #: monitor/templates/monitor/taskstatedetail.html:109
 msgid "in seconds if task succeeded"
@@ -536,11 +536,11 @@ msgstr ""
 
 #: monitor/templates/monitor/taskstatedetail.html:133
 msgid "Event received at"
-msgstr ""
+msgstr "事件获取在"
 
 #: monitor/templates/monitor/taskstatedetail.html:147
 msgid "Result"
-msgstr ""
+msgstr "结果"
 
 #: monitor/templates/monitor/taskstatedetail.html:165
 msgid "Traceback"
@@ -548,7 +548,7 @@ msgstr ""
 
 #: monitor/templates/monitor/taskstatedetail.html:183
 msgid "Expires"
-msgstr ""
+msgstr "过期的"
 
 #: monitor/templates/monitor/worker_status.html:12
 msgid "Processed"
@@ -556,19 +556,19 @@ msgstr ""
 
 #: monitor/templates/monitor/worker_status.html:12
 msgid "number of completed tasks"
-msgstr ""
+msgstr "完成任务数"
 
 #: monitor/templates/monitor/worker_status.html:43
 msgid "Num"
-msgstr ""
+msgstr "数量"
 
 #: monitor/templates/monitor/worker_status.html:80
 msgid "currently executing tasks"
-msgstr ""
+msgstr "当前执行的任务"
 
 #: monitor/templates/monitor/worker_status.html:112
 msgid "Start time"
-msgstr ""
+msgstr "开始时间"
 
 #: monitor/templates/monitor/worker_status.html:113
 msgid "Ack"
@@ -576,11 +576,11 @@ msgstr ""
 
 #: monitor/templates/monitor/worker_status.html:114
 msgid "PID"
-msgstr ""
+msgstr "进程id"
 
 #: monitor/templates/monitor/worker_status.html:131
 msgid "Terminate"
-msgstr ""
+msgstr "终止"
 
 #: monitor/templates/monitor/worker_status.html:159
 msgid "Scheduled"
@@ -592,56 +592,56 @@ msgstr ""
 
 #: monitor/templates/monitor/worker_status.html:232
 msgid "Reserved"
-msgstr ""
+msgstr "保留的"
 
 #: monitor/templates/monitor/worker_status.html:232
 msgid "tasks that have been received, but are still waiting to be executed"
-msgstr ""
+msgstr "任务已经被接收,但是等待执行"
 
 #: monitor/templates/monitor/worker_status.html:276
 msgid "Revoke"
-msgstr ""
+msgstr "回收"
 
 #: monitor/templates/monitor/worker_status.html:307
 msgid "Revoked"
-msgstr ""
+msgstr "回收"
 
 #: monitor/templates/monitor/worker_status.html:307
 msgid "cancelled tasks"
-msgstr ""
+msgstr "取消的任务"
 
 #: monitor/templates/monitor/workers.html:12
 msgid "Status"
-msgstr ""
+msgstr "状态"
 
 #: monitor/templates/monitor/workers.html:13
 msgid "Concurrency"
-msgstr ""
+msgstr "并发数"
 
 #: monitor/templates/monitor/workers.html:14
 msgid "Queues"
-msgstr ""
+msgstr "队列"
 
 #: monitor/templates/monitor/workers.html:15
 msgid "Completed Tasks"
-msgstr ""
+msgstr "已完成任务"
 
 #: monitor/templates/monitor/workers.html:24
 msgid "Online"
-msgstr ""
+msgstr "在线"
 
 #: monitor/templates/monitor/workers.html:26
 msgid "Offline"
-msgstr ""
+msgstr "离线"
 
 #: monitor/templates/monitor/workers.html:32
 msgid "shut down"
-msgstr ""
+msgstr "关闭"
 
 #: monitor/templates/monitor/workers.html:33
 msgid "restart"
-msgstr ""
+msgstr "重启"
 
 #: monitor/templates/monitor/workers.html:34
 msgid "ping"
-msgstr ""
+msgstr "测试"

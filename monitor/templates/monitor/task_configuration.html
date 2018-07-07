@@ -1,0 +1,102 @@
+{%extends "base.html"%}
+{%load i18n%}
+{% block title %}{%trans 'Task Configuration' %}{%endblock%}
+{% block content %}
+<!-- Main content -->
+       
+<!-- START CUSTOM TABS -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- Custom Tabs -->
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+              {% for item,value in response.items%}
+                {%if forloop.counter == 1%}
+                <li class="active"><a href="#{{forloop.counter}}" data-toggle="tab">{{item}} {%trans 'Worker task configuration' %}</a></li>
+                {%else%}
+                <li class=""><a href="#{{forloop.counter}}" data-toggle="tab">{{item}} {%trans 'Worker task configuration' %}</a></li>
+                {%endif%}
+              {%endfor%}
+          </ul>
+        <div class="tab-content">
+        <!-- /.tab-pane -->
+        {% for item,value in response.items%}
+            {%if forloop.counter == 1%}
+            <div class="tab-pane active" id="{{forloop.counter}}">
+            {%else%}
+            <div class="tab-pane " id="{{forloop.counter}}">
+            {%endif%}
+            <div class="row">
+            {%now 'isu' as tab_num%}
+            <section class="content-header">
+                <div class="">
+                    <table class="table table-striped table-bordered" id="task_configure{{forloop.counter}}" cellspacing="0" width="100%">                
+                        <thead>
+                            <tr>
+                                <th>{%trans 'Name' %}</th>
+                                <th>{%trans 'Queue' %}</th>
+                                <th>{%trans 'Action' %}</th>
+                                <th>{%trans 'Rate limit' %}</th>
+                                <th>{%trans 'Timeouts' %}</th>                            
+                            </tr>
+                        </thead>
+                        <tbody >
+                            {%for task in value%}
+                            <tr>
+                                <td>{{task.task_name}}</td>
+                                <td>{{task.queue}}</td>
+                                <td>
+                                    <button type="button" onclick="on_task_execute('{{task.task_name}}')" class="btn btn-primary">{%trans 'execute' %}</button>
+                                </td>
+                                <td>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <div class="input-append">
+                                            <input class="input-small" id="rate_limit{{tab_num}}{{forloop.counter}}" type="text">
+                                            <button class="btn" type="button" onclick="on_task_rate_limit('{{task.task_name}}','{{item}}','rate_limit{{tab_num}}{{forloop.counter}}')" >{%trans 'Apply' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <div class="input-append">
+                                            <input class="input-small" type="text" id="time_limit{{tab_num}}{{forloop.counter}}">
+                                            <button class="btn" type="button" onclick="on_task_time_limit_soft('{{task.task_name}}','{{item}}','time_limit{{tab_num}}{{forloop.counter}}')">{%trans 'Soft' %}</button>
+                                            <button class="btn" type="button" onclick="on_task_time_limit_hard('{{task.task_name}}','{{item}}','time_limit{{tab_num}}{{forloop.counter}}')">{%trans 'Hard' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+        </section>
+            </div>
+            </div>
+            <!-- /.tab-pane -->
+        {% endfor %}
+        </div>
+        <!-- /.tab-content -->
+        </div>
+    <!-- nav-tabs-custom -->
+    </div>
+<!-- /.col -->
+
+</div>
+<!-- /.row -->
+<!-- END CUSTOM TABS -->
+
+{% endblock %}
+{%block js%}
+{% for item,value in response.items%}
+<script>
+  $(function () {
+    $('#task_configure{{forloop.counter}}').DataTable();
+  });
+</script>
+{%endfor%}
+{%endblock%}

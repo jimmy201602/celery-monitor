@@ -1,0 +1,421 @@
+{%extends "base.html"%}
+{%load i18n%}
+{% block title %}{%trans 'Worker Status' %}{%endblock%}
+{% block content %}
+
+{%load dict_lookup%}
+<!-- Main content -->
+       
+<!-- START CUSTOM TABS -->
+
+<div class="col-md-12">
+<h2>{%trans 'Processed' %} <small>{%trans 'number of completed tasks' %}</small></h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- Custom Tabs -->
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+              {% for item,value in stats.items%}
+                {%if forloop.counter == 1%}
+                <li class="active"><a href="#completed{{forloop.counter}}" data-toggle="tab">{{item}}</a></li>
+                {%else%}
+                <li class=""><a href="#completed{{forloop.counter}}" data-toggle="tab">{{item}}</a></li>
+                {%endif%}
+              {%endfor%}
+          </ul>
+        <div class="tab-content">
+        <!-- /.tab-pane -->
+        {% if stats.items %}
+        {% for item,value in stats.items%}
+            {%if forloop.counter == 1%}
+            <div class="tab-pane active" id="completed{{forloop.counter}}">
+            {%else%}
+            <div class="tab-pane " id="completed{{forloop.counter}}">
+            {%endif%}
+            <div class="row">
+                <div class="col-md-12">
+                    <section class="content-header">
+                        <table id="completed_list{{forloop.counter}}" class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>{%trans 'Name' %}</th>
+                                    <th>{%trans 'Num' %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {%for task,num in value.total.items%}
+                                <tr>
+                                <td>{{task}}</td>
+                                <td>{{num}}</td>
+                                </tr>
+                            {%endfor%}
+
+
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+            </div>
+            <!-- /.tab-pane -->
+        {% endfor %}
+        {% else %}
+        {% trans 'No active worker!' %}
+        {% endif %}
+        </div>
+        <!-- /.tab-content -->
+        </div>
+    <!-- nav-tabs-custom -->
+    </div>
+<!-- /.col -->
+
+</div>
+<!-- /.row -->
+<!-- END CUSTOM TABS -->
+
+<!-- START CUSTOM TABS -->
+
+<div class="col-md-12">
+<h2>{%trans 'Active' %} <small>{%trans 'currently executing tasks' %}</small></h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+         <!--Custom Tabs -->
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+              {% for item,value in active_tasks.items%}
+                {%if forloop.counter == 1%}
+                <li class="active"><a href="#active{{forloop.counter}}" data-toggle="tab">{{item}}</a></li>
+                {%else%}
+                <li class=""><a href="#active{{forloop.counter}}" data-toggle="tab">{{item}}</a></li>
+                {%endif%}
+              {%endfor%}
+          </ul>
+        <div class="tab-content">
+        <!-- /.tab-pane -->
+        {% if active_tasks.items %}
+        {% for item,value in active_tasks.items%}
+            {%if forloop.counter == 1%}
+            <div class="tab-pane active" id="active{{forloop.counter}}">
+            {%else%}
+            <div class="tab-pane " id="active{{forloop.counter}}">
+            {%endif%}
+            <div class="row">
+                <div class="col-md-12">
+                    <section class="content-header">
+                        <table id="active_list{{forloop.counter}}" class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>{%trans 'Name' %}</th>
+                                    <th>{%trans 'UUID' %}</th>
+                                    <th>{%trans 'Start time' %}</th>
+                                    <th>{%trans 'Ack' %}</th>
+                                    <th>{%trans 'PID' %}</th>   
+                                    <th>{%trans 'args' %}</th>
+                                    <th>{%trans 'kwargs' %}</th>
+                                    <th>{%trans 'Operation' %}</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                            {%for tasks in value%}
+                                <tr>
+                                    <td>{{tasks.name}}</td>
+                                    <td>{{tasks.id}}</td>
+                                    <td>{{tasks.time_start}}</td>
+                                    <td>{{tasks.acknowledged}}</td>
+                                    <td>{{tasks.worker_pid}}</td>
+                                    <td>{{tasks.args}}</td>
+                                    <td>{{tasks.kwargs}}</td>
+                                    <td><button type="button" class="btn btn-danger" onclick="on_task_terminate('{{tasks.id}}','{{item}}')" >{%trans 'Terminate' %}</button></td>
+                                </tr>
+                            {%endfor%}
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+            </div>
+            <!-- /.tab-pane -->
+        {% endfor %}
+        {% else %}
+        {% trans 'No active worker!' %}
+        {% endif %}
+        </div>
+         <!--/.tab-content -->
+        </div>
+     <!--nav-tabs-custom -->
+    </div>
+<!-- /.col -->
+
+</div>
+<!-- /.row -->
+<!-- END CUSTOM TABS -->
+
+<!-- START CUSTOM TABS -->
+
+<div class="col-md-12">
+<h2>{%trans 'Scheduled' %} <small>{%trans 'scheduled (eta/countdown/retry) tasks' %}</small></h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- Custom Tabs -->
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+              {% for item,value in scheduled_tasks.items%}
+                {%if forloop.counter == 1%}
+                <li class="active"><a href="#scheduled{{forloop.counter}}" data-toggle="tab">{{item}}</a></li>
+                {%else%}
+                <li class=""><a href="#scheduled{{forloop.counter}}" data-toggle="tab">{{item}}</a></li>
+                {%endif%}
+              {%endfor%}
+          </ul>
+        <div class="tab-content">
+        <!-- /.tab-pane -->
+        {% if scheduled_tasks.items %}
+        {% for item,value in scheduled_tasks.items%}
+            {%if forloop.counter == 1%}
+            <div class="tab-pane active" id="scheduled{{forloop.counter}}">
+            {%else%}
+            <div class="tab-pane " id="scheduled{{forloop.counter}}">
+            {%endif%}
+            <div class="row">
+                <div class="col-md-12">
+                    <section class="content-header">
+                        <table id="scheduled_list{{forloop.counter}}"class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>{%trans 'Name' %}</th>
+                                        <th>{%trans 'UUID' %}</th>
+                                        <th>{%trans 'args' %}</th>
+                                        <th>{%trans 'kwargs' %}</th>
+                                    </tr>
+                                </thead>
+                            <tbody>
+                            {%for task in value%}
+                                <tr>
+                                <td>{{task.name}}</td>
+                                <td>{{task.id}}</td>
+                                <td>{{task.args}}</td>
+                                <td>{{task.kwargs}}</td>
+                                </tr>
+                            {%endfor%}
+
+
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+            </div>
+            <!-- /.tab-pane -->
+        {% endfor %}
+        {% else %}
+        {% trans 'No active worker!' %}
+        {% endif %}
+        </div>
+        <!--<!-- /.tab-content -->
+        </div>
+    <!-- nav-tabs-custom -->
+    </div>
+<!-- /.col -->
+
+</div>
+<!-- /.row -->
+<!-- END CUSTOM TABS -->
+
+
+<!-- START CUSTOM TABS -->
+
+<div class="col-md-12">
+<h2>{%trans 'Reserved' %} <small>{%trans 'tasks that have been received, but are still waiting to be executed' %}</small></h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- Custom Tabs -->
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+              {% for item,value in reserved_tasks.items%}
+                {%if forloop.counter == 1%}
+                <li class="active"><a href="#reserved{{forloop.counter}}" data-toggle="tab">{{item}}</a></li>
+                {%else%}
+                <li class=""><a href="#reserved{{forloop.counter}}" data-toggle="tab">{{item}}</a></li>
+                {%endif%}
+              {%endfor%}
+          </ul>
+        <div class="tab-content">
+        <!-- /.tab-pane -->
+        {% if reserved_tasks.items %}
+        {% for item,value in reserved_tasks.items %}
+            {%if forloop.counter == 1%}
+            <div class="tab-pane active" id="reserved{{forloop.counter}}">
+            {%else%}
+            <div class="tab-pane " id="reserved{{forloop.counter}}">
+            {%endif%}
+            <div class="row">
+                <div class="col-md-12">
+                    <section class="content-header">
+                        <table id="reserved_list{{forloop.counter}}" class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>{%trans 'Name' %}</th>
+                                        <th>{%trans 'UUID' %}</th>
+                                        <th>{%trans 'args' %}</th>
+                                        <th>{%trans 'kwargs' %}</th>
+                                        <th>{%trans 'Operation' %}</th>
+                                    </tr>
+                                </thead>
+                            <tbody>
+                                {% for retask in value %}
+                                    <tr>
+                                    <td>{{retask.name}}</td>
+                                    <td>{{retask.id}}</td>
+                                    <td>{{retask.args}}</td>
+                                    <td>{{retask.kwargs}}</td>
+                                    <td><button type="button" class="btn btn-danger" onclick="on_task_revoke('{{retask.id}}','{{item}}')">{%trans 'Revoke' %}</button></td>
+                                    </tr>
+                                {%endfor%}
+
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+            </div>
+            <!-- /.tab-pane -->
+        {% endfor %}
+        {% else %}
+        {% trans 'No active worker!' %}
+        {% endif %}
+        </div>
+        <!-- /.tab-content -->
+        </div>
+    <!-- nav-tabs-custom -->
+    </div>
+<!-- /.col -->
+
+</div>
+<!-- /.row -->
+<!-- END CUSTOM TABS -->
+
+
+
+<!-- START CUSTOM TABS -->
+
+<div class="col-md-12">
+<h2>{%trans 'Revoked' %} <small>{%trans 'cancelled tasks' %}</small></h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- Custom Tabs -->
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+              {% for item,value in revoked_tasks.items%}
+                {%if forloop.counter == 1%}
+                <li class="active"><a href="#revoked{{forloop.counter}}" data-toggle="tab">{{item}}</a></li>
+                {%else%}
+                <li class=""><a href="#revoked{{forloop.counter}}" data-toggle="tab">{{item}}</a></li>
+                {%endif%}
+              {%endfor%}
+          </ul>
+        <div class="tab-content">
+        <!-- /.tab-pane -->
+        {% if revoked_tasks.items %}
+        {% for item,value in revoked_tasks.items%}
+            {%if forloop.counter == 1%}
+            <div class="tab-pane active" id="revoked{{forloop.counter}}">
+            {%else%}
+            <div class="tab-pane " id="revoked{{forloop.counter}}">
+            {%endif%}
+            <div class="row">
+                <div class="col-md-12">
+                    <section class="content-header">
+                        <table id="revoked_list{{forloop.counter}}" class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>{%trans 'Name' %}</th>
+                                        <th>{%trans 'UUID' %}</th>
+                                        <th>{%trans 'args' %}</th>
+                                        <th>{%trans 'kwargs' %}</th>
+                                    </tr>
+                                </thead>
+                            <tbody>
+                            {%for task in value%}
+                                <tr>
+                                <td>{{task.name}}</td>
+                                <td>{{task}}</td>
+                                <td>{{task.args}}</td>
+                                <td>{{task.kwargs}}</td>
+                                </tr>
+                            {%endfor%}
+
+
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+            </div>
+            <!-- /.tab-pane -->
+        {% endfor %}
+        {% else %}
+        {% trans 'No active worker!' %}
+        {% endif %}
+        </div>
+        <!-- /.tab-content -->
+        </div>
+    <!-- nav-tabs-custom -->
+    </div>
+<!-- /.col -->
+
+</div>
+<!-- /.row -->
+<!-- END CUSTOM TABS -->
+
+
+{% endblock %}
+{%block js%}
+<script>
+{% for item,value in stats.items%}
+  $(function () {
+    $('#completed_list{{forloop.counter}}').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true
+    });
+  });
+{%endfor%}
+</script>
+<script>
+{% for item,value in reserved_tasks.items %}
+  $(function () {
+    $('#reserved_list{{forloop.counter}}').DataTable();
+  });
+{%endfor%}
+</script>
+<script>
+{% for item,value in active_tasks.items%}
+  $(function () {
+    $('#active_list{{forloop.counter}}').DataTable();
+  });
+{%endfor%}
+</script>
+<script>
+{% for item,value in scheduled_tasks.items%}
+  $(function () {
+    $('#scheduled_list{{forloop.counter}}').DataTable();
+  });
+{%endfor%}
+</script>
+<script>
+{% for item,value in revoked_tasks.items%}
+  $(function () {
+    $('#revoked_list{{forloop.counter}}').DataTable();
+  });
+{%endfor%}
+</script>
+{%endblock%}

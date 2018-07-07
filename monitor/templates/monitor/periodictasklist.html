@@ -1,0 +1,99 @@
+{%extends 'base.html'%}
+{%load i18n%}
+{%block js%}
+<script>
+  $(function () {
+    $('#action_list').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+	  "iDisplayLength": 50,
+      "autoWidth": false
+    });
+  });
+</script>
+{%endblock%}
+{%block title%}{%trans 'periodictask list' %}{%endblock%}
+{%block content%}
+<div class="navbar-inner">	
+<div class="navbar-header">
+                        
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#content-navbar-collapse" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <span class="navbar-brand">{%trans 'Jobs list' %}</span>
+</div>
+<div id="content-navbar-collapse" class="navbar-collapse collapse">
+	<ul class="object-tools nav navbar-nav">
+		<li>
+		<a role="button" href="{% url 'periodictask_add'%}" class="btn btn-primary">
+			<span class="glyphicon glyphicon-plus"></span> {%trans 'Add new job' %}
+		</a>
+		</li>	
+	</ul>
+	</div>
+</div>
+			
+			
+    <section class="content">		
+						
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+								{% for message in messages %}
+                				<div class="col-sm-7 alert{% if message.tags %} alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}{% endif %} text-center">
+								{{ message|safe }}
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
+								</div>
+								{% endfor %}
+						</div>
+
+						
+        <div class="box-body">
+              <table id="action_list" class="table table-hover table-striped">
+                <thead>
+                <tr>
+					<th>{%trans 'name' %}</th>
+					<th>{%trans 'enabled' %}</th>
+					<th>{%trans 'args' %}</th>
+					<th>{%trans 'kwargs' %}</th>
+					<th>{%trans 'queue' %}</th>
+					<th>{%trans 'crontab' %}</th>
+					<th>{%trans 'action' %}</th>
+                </tr>
+                </thead>
+                <tbody>
+				{% for element in object_list %}
+                <tr>
+                  <td>{{ element.name }}</td>
+				  <td>{{ element.enabled|yesno:"yes,no,nothing" }}</td>
+				  <td>{{ element.args }}</td>
+				  <td>{{ element.kwargs }}</td>
+				  <td>{{ element.queue }}</td>
+				  <td>{%if element.interval%}
+				  {{element.interval}}
+				  {%else%}
+				  {{element.crontab}}
+				  {%endif%}
+				  </td>
+					<td data-editable="false" class="text-center">
+					<a class="btn btn-xs btn-success" onclick="run_task('{{element.name}}','{{element.id}}');">{%trans 'run' %}</a>
+					<a class="btn btn-xs btn-primary" href="{% url 'periodictask_detail' element.id %}">{%trans 'detail' %}</a>
+					<a class="btn btn-xs btn-info" href="{% url 'periodictask_update' element.id %}">{%trans 'edit' %}</a>					
+				   <a class="btn btn-xs btn-danger" href="{% url 'periodictask_delete' element.id %}">{%trans 'delete' %}</a>
+				 </td>
+                </tr>
+				{% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+    </section>	
+{%endblock%}
+{%block footer-script%}
+{%endblock%}

@@ -1,0 +1,36 @@
+{%extends 'base.html'%}
+{%load i18n%}
+{%block title%}{%trans 'periodictask delete' %}{%endblock%}
+{%block content%}					
+					
+<div class="wrapper-content">
+        <div class="row">
+
+
+            <div class="col-lg-10">
+                <div class="content float-e-margins">
+                    <div class="content">
+                        <form action="" class="form-horizontal nice-validator n-yellow" id="{{form.id_for_label}}" method="post" novalidate="novalidate">
+                            {% csrf_token %}
+							
+							
+							<div class="col-sm-4 col-sm-offset-5">
+								<h1 class="pull-center">{%trans 'delete periodictask' %}  {{ object.name }}</h1>
+                            </div>
+							
+
+
+							<div class="col-sm-4 col-sm-offset-5">
+                                <button type="submit" id="submit_button" class="btn btn-danger pull-center"> {%trans 'delete' %} </button>
+                            </div>
+							
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>	
+            <!-- /.box-body -->
+{%endblock%}
+{%block footer-script%}
+{%endblock%}

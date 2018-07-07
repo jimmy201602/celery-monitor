@@ -28,7 +28,6 @@ urlpatterns = [
     url(r'^pool_configuration/$', pool_configuration.as_view(),name='pool_configuration'),
     url(r'^worker_status/$', worker_status.as_view(),name='worker_status'),
     url(r'^operations/$', operations.as_view(),name='operations'),
-    #url(r'^conf/$', conf.as_view(),name='conf'),
     url(r'^periodictask/add/$', periodictaskcreate.as_view(), name='periodictask_add'),
     url(r'^periodictask/(?P<pk>[0-9]+)/update/$', periodictaskupdate.as_view(), name='periodictask_update'),
     url(r'^periodictask/$', periodictasklist.as_view(), name='periodictask_list'),
@@ -52,7 +51,7 @@ class Mychangelist(ChangeList):
         return '/monitor/taskstate/%d/' %(pk)
 
 class permission_modify(TaskMonitor):
-    change_list_template = 'change_list.html'
+    change_list_template = 'monitor/change_list.html'
     list_per_page = 15
     actions = None
     #list_filter = ('state', 'name', ('tstamp',DateRangeFilter), 'eta', 'worker')

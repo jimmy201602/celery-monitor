@@ -1,0 +1,205 @@
+{%extends 'base.html'%}
+{%load i18n%}
+{%block title%}{%trans 'periodictask detail' %}{%endblock%}
+{%block content%}
+{%load dict_lookup%}
+{% load i18n admin_urls admin_static admin_modify bootstrapped_goodies_tags %}
+{% load staticfiles %} 
+<div class="wrapper-content">
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="content float-e-margins">
+                    <div class="content">
+                        <form action="" class="form-horizontal nice-validator n-yellow" id=""  novalidate="novalidate">						
+                
+                        <div class="row">
+                            <div class="control-group">
+                                <div class="col-md-12 form-group ">
+                                    <div class="control-label col-md-2">
+                                        <label>{%trans 'state' %}:</label>
+                                    </div>
+                                    
+                                    <div class="controls col-md-10">
+                                            <p>{{object.state}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
+
+                        
+                        <div class="row">
+                            <div class="control-group">
+                                <div class="col-md-12 form-group ">
+                                    <div class="control-label col-md-2">
+                                        <label>{%trans 'UUID' %}:</label>
+                                    </div>
+                                    
+                                    <div class="controls col-md-10">
+                                            <p>{{object.task_id}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>   
+                        
+                        <div class="row">
+                            <div class="control-group">
+                                <div class="col-md-12 form-group ">
+                                    <div class="control-label col-md-2">
+                                        <label>{%trans 'name' %}:</label>
+                                    </div>
+                                    
+                                    <div class="controls col-md-10">
+                                            <p>{{object.name}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        
+                        <div class="row">
+                            <div class="control-group">
+                                <div class="col-md-12 form-group ">
+                                    <div class="control-label col-md-2">
+                                        <label>{%trans 'Arguments' %}:</label>
+                                    </div>
+                                    
+                                    <div class="controls col-md-10">
+                                            <p>{{object.args}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        
+                        <div class="row">
+                            <div class="control-group">
+                                <div class="col-md-12 form-group ">
+                                    <div class="control-label col-md-2">
+                                        <label>{%trans 'Keyword arguments' %}:</label>
+                                    </div>
+                                    
+                                    <div class="controls col-md-10">
+                                            <p>{{object.kwargs}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        
+                        <div class="row">
+                            <div class="control-group">
+                                <div class="col-md-12 form-group ">
+                                    <div class="control-label col-md-2">
+                                        <label>{%trans 'ETA' %}:</label>
+                                    </div>
+                                    
+                                    <div class="controls col-md-10">
+                                            <p>{{object.eta}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        
+                        <div class="row">
+                            <div class="control-group">
+                                <div class="col-md-12 form-group ">
+                                    <div class="control-label col-md-2">
+                                        <label>{%trans 'Execution time' %}:</label>
+                                    </div>
+                                    
+                                    <div class="controls col-md-10">
+                                            <p>{{object.runtime}}</p>
+                                            <span class="help-block">{%trans 'in seconds if task succeeded'%}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        
+                        <div class="row">
+                            <div class="control-group">
+                                <div class="col-md-12 form-group ">
+                                    <div class="control-label col-md-2">
+                                        <label>{%trans 'Worker' %}:</label>
+                                    </div>
+                                    
+                                    <div class="controls col-md-10">
+                                            <p>{{object.worker}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>          
+
+                        <div class="row">
+                            <div class="control-group">
+                                <div class="col-md-12 form-group ">
+                                    <div class="control-label col-md-2">
+                                        <label>{%trans 'Event received at' %}:</label>
+                                    </div>
+                                    
+                                    <div class="controls col-md-10">
+                                            <p>{{object.tstamp|date:"Y-m-d H:i:s"}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>        
+                            
+                        <div class="row">
+                            <div class="control-group">
+                                <div class="col-md-12 form-group ">
+                                    <div class="control-label col-md-2">
+                                        <label>{%trans 'Result' %}:</label>
+                                    </div>
+                                    
+                                    <div class="controls col-md-10">
+                                            {%if object.result%}
+                                            <p><pre><code class="python">{{object.result}}</code></pre></p>
+                                            {%else%}
+                                            <p>{{object.result}}</p>
+                                            {%endif%}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        
+                        <div class="row">
+                            <div class="control-group">
+                                <div class="col-md-12 form-group ">
+                                    <div class="control-label col-md-2">
+                                        <label>{%trans 'Traceback' %}:</label>
+                                    </div>
+                                    
+                                    <div class="controls col-md-10">
+                                            {%if object.traceback%}
+                                            <p><pre><code class="python">{{object.traceback}}</code></pre></p>
+                                            {%else%}
+                                            <p>{{object.traceback}}</p>
+                                            {%endif%}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                            
+                        <div class="row">
+                            <div class="control-group">
+                                <div class="col-md-12 form-group ">
+                                    <div class="control-label col-md-2">
+                                        <label>{%trans 'Expires' %}:</label>
+                                    </div>
+                                    
+                                    <div class="controls col-md-10">
+                                            <p>{%if object.retries%}{{object.retries|date:"Y-m-d H:i:s"}}{%else%}(None){%endif%}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>       
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+{%endblock%}
+{%block js%}
+<link rel="stylesheet" href="{% static "highlight/styles/googlecode.css" %}">
+<script src="{% static "highlight/highlight.pack.js" %}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{%endblock%}

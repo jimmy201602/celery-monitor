@@ -1,0 +1,645 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-07 22:27+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: monitor/sites.py:40 monitor/templates/monitor/change_list_base.html:8
+msgid "Django site admin"
+msgstr ""
+
+#: monitor/sites.py:43
+msgid "Django administration"
+msgstr ""
+
+#: monitor/sites.py:46
+msgid "Site administration"
+msgstr ""
+
+#: monitor/sites.py:393
+msgid "Log in"
+msgstr ""
+
+#: monitor/sites.py:525
+#, python-format
+msgid "%(app)s administration"
+msgstr ""
+
+#: monitor/templates/monitor/active_tasks.html:35
+msgid "Id"
+msgstr "ID"
+
+#: monitor/templates/monitor/active_tasks.html:36
+#: monitor/templates/monitor/queues_configuration.html:57
+#: monitor/templates/monitor/registered_tasks.html:11
+#: monitor/templates/monitor/task_configuration.html:36
+#: monitor/templates/monitor/tasklist.html:11
+#: monitor/templates/monitor/worker_status.html:42
+#: monitor/templates/monitor/worker_status.html:110
+#: monitor/templates/monitor/worker_status.html:189
+#: monitor/templates/monitor/worker_status.html:262
+#: monitor/templates/monitor/worker_status.html:337
+#: monitor/templates/monitor/workers.html:11
+msgid "Name"
+msgstr "名称"
+
+#: monitor/templates/monitor/active_tasks.html:37
+#: monitor/templates/monitor/registered_tasks.html:12
+#: monitor/templates/monitor/task_configuration.html:37
+msgid "Queue"
+msgstr "队列"
+
+#: monitor/templates/monitor/active_tasks.html:38
+#: monitor/templates/monitor/taskstatedetail.html:119
+msgid "Worker"
+msgstr "Worker"
+
+#: monitor/templates/monitor/active_tasks.html:39
+#: monitor/templates/monitor/registered_tasks.html:13
+#: monitor/templates/monitor/task_configuration.html:38
+#: monitor/templates/monitor/workers.html:16
+msgid "Action"
+msgstr "操作"
+
+#: monitor/templates/monitor/active_tasks.html:69
+#: monitor/templates/monitor/pool_configuration.html:114
+#: monitor/templates/monitor/queues_configuration.html:93
+#: monitor/templates/monitor/worker_status.html:64
+#: monitor/templates/monitor/worker_status.html:143
+#: monitor/templates/monitor/worker_status.html:215
+#: monitor/templates/monitor/worker_status.html:289
+#: monitor/templates/monitor/worker_status.html:363
+msgid "No active worker!"
+msgstr "未激活的worker"
+
+#: monitor/templates/monitor/change_list.html:46
+#, python-format
+msgid "Add %(name)s"
+msgstr "新增 %(name)s"
+
+#: monitor/templates/monitor/change_list.html:56
+msgid "Filter"
+msgstr "过滤"
+
+#: monitor/templates/monitor/change_list.html:75
+msgid "Please correct the error below."
+msgstr "请纠正以下错误."
+
+#: monitor/templates/monitor/change_list.html:75
+msgid "Please correct the errors below."
+msgstr ""
+
+#: monitor/templates/monitor/change_list.html:115
+msgid "Save"
+msgstr "保存"
+
+#: monitor/templates/monitor/change_list_base.html:69
+msgid "C"
+msgstr ""
+
+#: monitor/templates/monitor/change_list_base.html:69
+msgid "M"
+msgstr ""
+
+#: monitor/templates/monitor/change_list_base.html:71
+msgid "celery"
+msgstr ""
+
+#: monitor/templates/monitor/change_list_base.html:71
+msgid "monitor"
+msgstr ""
+
+#: monitor/templates/monitor/change_list_base.html:201
+msgid "logout"
+msgstr ""
+
+#: monitor/templates/monitor/change_list_base.html:218
+msgid "Dashboard"
+msgstr ""
+
+#: monitor/templates/monitor/change_list_base.html:224
+#: monitor/templates/monitor/workers.html:3
+msgid "Workers"
+msgstr ""
+
+#: monitor/templates/monitor/change_list_base.html:225
+#: monitor/templates/monitor/worker_status.html:3
+msgid "Worker Status"
+msgstr "Worker状态"
+
+#: monitor/templates/monitor/change_list_base.html:226
+msgid "Pool Configuration"
+msgstr "Pool配置"
+
+#: monitor/templates/monitor/change_list_base.html:227
+#: monitor/templates/monitor/queues_configuration.html:3
+msgid "Queues Configuration"
+msgstr "队列配置"
+
+#: monitor/templates/monitor/change_list_base.html:228
+msgid "Reserved Tasks"
+msgstr "取消的任务"
+
+#: monitor/templates/monitor/change_list_base.html:229
+msgid "Active Tasks"
+msgstr "在运行的任务"
+
+#: monitor/templates/monitor/change_list_base.html:230
+#: monitor/templates/monitor/registered_tasks.html:3
+msgid "Registered Tasks"
+msgstr "注册的任务"
+
+#: monitor/templates/monitor/change_list_base.html:231
+msgid "Job list"
+msgstr "任务列表"
+
+#: monitor/templates/monitor/change_list_base.html:232
+msgid "Task monitor"
+msgstr "任务监控"
+
+#: monitor/templates/monitor/change_list_base.html:233
+msgid "Task sate chart"
+msgstr "任务状态图"
+
+#: monitor/templates/monitor/change_list_base.html:250
+msgid "Home"
+msgstr ""
+
+#: monitor/templates/monitor/change_list_base.html:327
+msgid "Version"
+msgstr "版本"
+
+#: monitor/templates/monitor/change_list_base.html:329
+msgid "Copyright &copy; 2014-2016"
+msgstr ""
+
+#: monitor/templates/monitor/change_list_base.html:329
+msgid "Almsaeed Studio"
+msgstr ""
+
+#: monitor/templates/monitor/change_list_base.html:329
+msgid "All rights reserved."
+msgstr ""
+
+#: monitor/templates/monitor/periodictaskcreate.html:3
+msgid "periodictask create"
+msgstr "任务创建"
+
+#: monitor/templates/monitor/periodictaskcreate.html:67
+#: monitor/templates/monitor/periodictaskupdate.html:67
+msgid "submit"
+msgstr "提交"
+
+#: monitor/templates/monitor/periodictaskdelete.html:3
+msgid "periodictask delete"
+msgstr "任务删除"
+
+#: monitor/templates/monitor/periodictaskdelete.html:18
+msgid "delete periodictask"
+msgstr "删除任务"
+
+#: monitor/templates/monitor/periodictaskdelete.html:24
+#: monitor/templates/monitor/periodictasklist.html:88
+msgid "delete"
+msgstr "删除"
+
+#: monitor/templates/monitor/periodictaskdetail.html:3
+#: monitor/templates/monitor/taskstatedetail.html:3
+msgid "periodictask detail"
+msgstr "任务详情"
+
+#: monitor/templates/monitor/periodictaskdetail.html:17
+#: monitor/templates/monitor/periodictasklist.html:61
+#: monitor/templates/monitor/taskstatedetail.html:48
+msgid "name"
+msgstr "名称"
+
+#: monitor/templates/monitor/periodictaskdetail.html:30
+msgid "Task (custom):"
+msgstr "任务自定义"
+
+#: monitor/templates/monitor/periodictaskdetail.html:43
+msgid "interval"
+msgstr "间隔"
+
+#: monitor/templates/monitor/periodictaskdetail.html:53
+#: monitor/templates/monitor/periodictasklist.html:66
+msgid "crontab"
+msgstr "计划任务"
+
+#: monitor/templates/monitor/periodictaskdetail.html:63
+msgid "Arguments:"
+msgstr ""
+
+#: monitor/templates/monitor/periodictaskdetail.html:76
+msgid "Keyword arguments:"
+msgstr ""
+
+#: monitor/templates/monitor/periodictaskdetail.html:90
+msgid "reg tasks:"
+msgstr "注册的任务"
+
+#: monitor/templates/monitor/periodictaskdetail.html:99
+#: monitor/templates/monitor/periodictasklist.html:62
+msgid "enabled"
+msgstr "打开"
+
+#: monitor/templates/monitor/periodictaskdetail.html:106
+#: monitor/templates/monitor/periodictasklist.html:65
+msgid "queue"
+msgstr "队列"
+
+#: monitor/templates/monitor/periodictaskdetail.html:118
+msgid "exchange"
+msgstr "交换"
+
+#: monitor/templates/monitor/periodictaskdetail.html:130
+msgid "routing_key"
+msgstr "路由键"
+
+#: monitor/templates/monitor/periodictaskdetail.html:142
+msgid "expires"
+msgstr "过期"
+
+#: monitor/templates/monitor/periodictaskdetail.html:156
+msgid "description"
+msgstr "描述"
+
+#: monitor/templates/monitor/periodictasklist.html:18
+msgid "periodictask list"
+msgstr "任务列表"
+
+#: monitor/templates/monitor/periodictasklist.html:29
+msgid "Jobs list"
+msgstr "任务列表"
+
+#: monitor/templates/monitor/periodictasklist.html:35
+msgid "Add new job"
+msgstr "新增认为有"
+
+#: monitor/templates/monitor/periodictasklist.html:63
+#: monitor/templates/monitor/worker_status.html:115
+#: monitor/templates/monitor/worker_status.html:191
+#: monitor/templates/monitor/worker_status.html:264
+#: monitor/templates/monitor/worker_status.html:339
+msgid "args"
+msgstr ""
+
+#: monitor/templates/monitor/periodictasklist.html:64
+#: monitor/templates/monitor/worker_status.html:116
+#: monitor/templates/monitor/worker_status.html:192
+#: monitor/templates/monitor/worker_status.html:265
+#: monitor/templates/monitor/worker_status.html:340
+msgid "kwargs"
+msgstr ""
+
+#: monitor/templates/monitor/periodictasklist.html:67
+msgid "action"
+msgstr ""
+
+#: monitor/templates/monitor/periodictasklist.html:85
+msgid "run"
+msgstr "运行"
+
+#: monitor/templates/monitor/periodictasklist.html:86
+msgid "detail"
+msgstr "详情"
+
+#: monitor/templates/monitor/periodictasklist.html:87
+msgid "edit"
+msgstr "编辑"
+
+#: monitor/templates/monitor/periodictaskupdate.html:3
+msgid "periodictask update"
+msgstr "任务更新"
+
+#: monitor/templates/monitor/pool_configuration.html:3
+#: monitor/templates/monitor/task_configuration.html:3
+msgid "Task Configuration"
+msgstr "任务配置"
+
+#: monitor/templates/monitor/pool_configuration.html:17
+#: monitor/templates/monitor/pool_configuration.html:19
+msgid "Worker pool options"
+msgstr "Worker pool可选项"
+
+#: monitor/templates/monitor/pool_configuration.html:39
+msgid "Processes"
+msgstr "进程"
+
+#: monitor/templates/monitor/pool_configuration.html:44
+msgid "Max tasks per child"
+msgstr "每进程最大任务数"
+
+#: monitor/templates/monitor/pool_configuration.html:49
+#: monitor/templates/monitor/task_configuration.html:40
+msgid "Timeouts"
+msgstr "超时"
+
+#: monitor/templates/monitor/pool_configuration.html:54
+msgid "Writes"
+msgstr ""
+
+#: monitor/templates/monitor/pool_configuration.html:59
+msgid "Put guarded by semaphore"
+msgstr ""
+
+#: monitor/templates/monitor/pool_configuration.html:64
+msgid "Max concurrency"
+msgstr ""
+
+#: monitor/templates/monitor/pool_configuration.html:69
+msgid "Worker PID"
+msgstr ""
+
+#: monitor/templates/monitor/pool_configuration.html:79
+msgid "Pool size control"
+msgstr ""
+
+#: monitor/templates/monitor/pool_configuration.html:81
+msgid "Pool size"
+msgstr ""
+
+#: monitor/templates/monitor/pool_configuration.html:91
+msgid "Grow"
+msgstr ""
+
+#: monitor/templates/monitor/pool_configuration.html:92
+msgid "Shrink"
+msgstr ""
+
+#: monitor/templates/monitor/pool_configuration.html:97
+msgid "Min/Max autoscale"
+msgstr ""
+
+#: monitor/templates/monitor/pool_configuration.html:102
+#: monitor/templates/monitor/task_configuration.html:56
+msgid "Apply"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:18
+#: monitor/templates/monitor/queues_configuration.html:20
+msgid "Worker queues options"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:38
+msgid "Pool consumer control"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:41
+#: monitor/templates/monitor/worker_status.html:80
+msgid "Active"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:41
+msgid "queues being consumed from"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:45
+msgid "Add Consumer"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:58
+msgid "Exclusive"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:59
+msgid "Durable"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:60
+msgid "Routing key"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:61
+msgid "No ACK"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:62
+msgid "Alias"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:63
+msgid "Queue arguments"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:64
+msgid "Binding arguments"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:65
+msgid "Auto delete"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:66
+#: monitor/templates/monitor/worker_status.html:117
+#: monitor/templates/monitor/worker_status.html:266
+msgid "Operation"
+msgstr ""
+
+#: monitor/templates/monitor/queues_configuration.html:81
+msgid "Cancel Consumer"
+msgstr ""
+
+#: monitor/templates/monitor/registered_tasks.html:22
+#: monitor/templates/monitor/task_configuration.html:49
+msgid "execute"
+msgstr ""
+
+#: monitor/templates/monitor/task_configuration.html:15
+#: monitor/templates/monitor/task_configuration.html:17
+msgid "Worker task configuration"
+msgstr ""
+
+#: monitor/templates/monitor/task_configuration.html:39
+msgid "Rate limit"
+msgstr ""
+
+#: monitor/templates/monitor/task_configuration.html:66
+msgid "Soft"
+msgstr ""
+
+#: monitor/templates/monitor/task_configuration.html:67
+msgid "Hard"
+msgstr ""
+
+#: monitor/templates/monitor/tasklist.html:3
+msgid "Task list"
+msgstr ""
+
+#: monitor/templates/monitor/tasklist.html:12
+msgid "ID"
+msgstr ""
+
+#: monitor/templates/monitor/tasklist.html:13
+msgid "Runtime (second)"
+msgstr ""
+
+#: monitor/templates/monitor/tasklist.html:14
+msgid "State"
+msgstr ""
+
+#: monitor/templates/monitor/tasklist.html:15
+msgid "Recieved time"
+msgstr ""
+
+#: monitor/templates/monitor/taskstatechart.html:3
+msgid "Task state history chart"
+msgstr ""
+
+#: monitor/templates/monitor/taskstatedetail.html:19
+msgid "state"
+msgstr ""
+
+#: monitor/templates/monitor/taskstatedetail.html:34
+#: monitor/templates/monitor/worker_status.html:111
+#: monitor/templates/monitor/worker_status.html:190
+#: monitor/templates/monitor/worker_status.html:263
+#: monitor/templates/monitor/worker_status.html:338
+msgid "UUID"
+msgstr ""
+
+#: monitor/templates/monitor/taskstatedetail.html:62
+msgid "Arguments"
+msgstr ""
+
+#: monitor/templates/monitor/taskstatedetail.html:76
+msgid "Keyword arguments"
+msgstr ""
+
+#: monitor/templates/monitor/taskstatedetail.html:90
+msgid "ETA"
+msgstr ""
+
+#: monitor/templates/monitor/taskstatedetail.html:104
+msgid "Execution time"
+msgstr ""
+
+#: monitor/templates/monitor/taskstatedetail.html:109
+msgid "in seconds if task succeeded"
+msgstr ""
+
+#: monitor/templates/monitor/taskstatedetail.html:133
+msgid "Event received at"
+msgstr ""
+
+#: monitor/templates/monitor/taskstatedetail.html:147
+msgid "Result"
+msgstr ""
+
+#: monitor/templates/monitor/taskstatedetail.html:165
+msgid "Traceback"
+msgstr ""
+
+#: monitor/templates/monitor/taskstatedetail.html:183
+msgid "Expires"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:12
+msgid "Processed"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:12
+msgid "number of completed tasks"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:43
+msgid "Num"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:80
+msgid "currently executing tasks"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:112
+msgid "Start time"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:113
+msgid "Ack"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:114
+msgid "PID"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:131
+msgid "Terminate"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:159
+msgid "Scheduled"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:159
+msgid "scheduled (eta/countdown/retry) tasks"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:232
+msgid "Reserved"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:232
+msgid "tasks that have been received, but are still waiting to be executed"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:276
+msgid "Revoke"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:307
+msgid "Revoked"
+msgstr ""
+
+#: monitor/templates/monitor/worker_status.html:307
+msgid "cancelled tasks"
+msgstr ""
+
+#: monitor/templates/monitor/workers.html:12
+msgid "Status"
+msgstr ""
+
+#: monitor/templates/monitor/workers.html:13
+msgid "Concurrency"
+msgstr ""
+
+#: monitor/templates/monitor/workers.html:14
+msgid "Queues"
+msgstr ""
+
+#: monitor/templates/monitor/workers.html:15
+msgid "Completed Tasks"
+msgstr ""
+
+#: monitor/templates/monitor/workers.html:24
+msgid "Online"
+msgstr ""
+
+#: monitor/templates/monitor/workers.html:26
+msgid "Offline"
+msgstr ""
+
+#: monitor/templates/monitor/workers.html:32
+msgid "shut down"
+msgstr ""
+
+#: monitor/templates/monitor/workers.html:33
+msgid "restart"
+msgstr ""
+
+#: monitor/templates/monitor/workers.html:34
+msgid "ping"
+msgstr ""

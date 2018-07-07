@@ -1,0 +1,127 @@
+{%extends "base.html"%}
+{%load i18n%}
+{% block title %}{%trans 'Task Configuration' %}{%endblock%}
+{% block content %}
+
+{%load dict_lookup%}
+<!-- Main content -->
+       
+<!-- START CUSTOM TABS -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- Custom Tabs -->
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+              {% for item,value in stats.items%}
+                {%if forloop.counter == 1%}
+                <li class="active"><a href="#{{forloop.counter}}" data-toggle="tab">{{item}}  {%trans 'Worker pool options' %}</a></li>
+                {%else%}
+                <li class=""><a href="#{{forloop.counter}}" data-toggle="tab">{{item}} {%trans 'Worker pool options' %}</a></li>
+                {%endif%}
+              {%endfor%}
+          </ul>
+        <div class="tab-content">
+        <!-- /.tab-pane -->
+        {% if stats.items %}
+        {% for item,value in stats.items%}
+            {%now 'isu' as randomnum%}
+            {%if forloop.counter == 1%}
+            <div class="tab-pane active" id="{{forloop.counter}}">
+            {%else%}
+            <div class="tab-pane " id="{{forloop.counter}}">
+            {%endif%}
+            <div class="row">
+                <div class="col-md-6">
+                    <section class="content-header">
+                        <table class="table table-hover table-striped">
+                            <tbody>
+                            <tr>
+                            <td>{%trans 'Processes' %}</td>
+                            <td>{%for process in value.pool.processes%}{{process}}, {%endfor%}</td>
+                            </tr>
+                            
+                            <tr>
+                            <td>{%trans 'Max tasks per child' %}</td>
+                            <td>{{value.pool|dictKeyLookup:"max-tasks-per-child"}}</td>
+                            </tr>
+                            
+                            <tr>
+                            <td>{%trans 'Timeouts' %}</td>
+                            <td>{% for timeout in value.pool.timeouts %}{{timeout}}, {%endfor%}</td>
+                            </tr>
+                            
+                            <tr>
+                            <td>{%trans 'Writes' %}</td>
+                            <td>{{value.pool.writes}}</td>
+                            </tr>
+                            
+                            <tr>
+                            <td>{%trans 'Put guarded by semaphore' %}</td>
+                            <td>{{ value.pool|dictKeyLookup:"put-guarded-by-semaphore" }}</td>
+                            </tr>
+                            
+                            <tr>
+                            <td>{%trans 'Max concurrency' %}</td>
+                            <td>{{ value.pool|dictKeyLookup:"max-concurrency"}}</td>
+                            </tr>
+                            
+                            <tr>
+                            <td>{%trans 'Worker PID' %}</td>
+                            <td>{{value.pid}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+                <div class="col-md-6">
+                <div class="form-horizontal">
+                    <fieldset>
+                    <legend>{%trans 'Pool size control' %}</legend>
+                    <div class="control-group">
+                    <label class="control-label" for="pool-size">{%trans 'Pool size' %}</label>
+                    <div class="controls">
+                    <div class="input-append">
+                    <select class="input-mini" id="pool-size{{randomnum}}{{forloop.counter}}">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    </select>
+                    <button class="btn" type="button" onclick="on_pool_grow('{{item}}','pool-size{{randomnum}}{{forloop.counter}}')">{%trans 'Grow' %}</button>
+                    <button class="btn" type="button" onclick="on_pool_shrink('{{item}}','pool-size{{randomnum}}{{forloop.counter}}')">{%trans 'Shrink' %}</button>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="control-group">
+                    <label class="control-label" for="min-autoscale">{%trans 'Min/Max autoscale' %}</label>
+                    <div class="controls">
+                    <div class="input-append">
+                    <input class="input-mini" id="min-autoscale{{randomnum}}{{forloop.counter}}" size="6" type="number">
+                    <input class="input-mini" id="max-autoscale{{randomnum}}{{forloop.counter}}" size="6" type="number">
+                    <button class="btn" type="button" onclick="on_pool_autoscale('{{item}}','min-autoscale{{randomnum}}{{forloop.counter}}','max-autoscale{{randomnum}}{{forloop.counter}}')">{%trans 'Apply' %}</button>
+                    </div>
+                    </div>
+                    </div>
+                    </fieldset>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <!-- /.tab-pane -->
+        {% endfor %}
+        {% else %}
+            {% trans 'No active worker!' %}
+        {% endif %}
+        </div>
+        <!-- /.tab-content -->
+        </div>
+    <!-- nav-tabs-custom -->
+    </div>
+<!-- /.col -->
+
+</div>
+<!-- /.row -->
+<!-- END CUSTOM TABS -->
+
+{% endblock %}

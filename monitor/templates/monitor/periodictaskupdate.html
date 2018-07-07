@@ -1,0 +1,77 @@
+{%extends 'base.html'%}
+{%load i18n%}
+{%block title%}{%trans 'periodictask update' %}{%endblock%}
+{%block js%}
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/related-widget-wrapper.js"></script> 
+<script type="text/javascript">
+      $(function () {
+      $('#{{form.expires.id_for_label}}').daterangepicker({
+      timePicker: true, 
+      timePickerIncrement: 1, 
+      format: 'YYYY-MM-DD HH:mm:ss',
+		timePickerSeconds:true,
+		autoApply:true,
+		singleDatePicker:true,  
+		timePicker24Hour:true,    
+		clearStatus:false,
+		autoUpdateInput: false,
+		locale: {
+			"format": 'YYYY-MM-DD HH:mm:ss'
+		}
+      });
+      
+  		$('#{{form.expires.id_for_label}}').on('apply.daterangepicker', function(ev, picker) {
+			$(this).val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
+		});
+  
+  		$('#{{form.expires.id_for_label}}').on('cancel.daterangepicker', function(ev, picker) {
+      	$(this).val('');
+		});
+      });
+</script>
+{%endblock%}
+{%block content%}
+{%load dict_lookup%}
+{%load bootstrap3%}
+<div class="wrapper-content">
+        <div class="row">
+
+                
+            <div class="col-lg-10">
+                <div class="content float-e-margins">
+                    <div class="content">
+                        <form action="" class="form-horizontal nice-validator n-yellow form" id="periodictask_update" method="post" novalidate="novalidate">
+                            {% csrf_token %}
+							
+							{% bootstrap_form_errors form type='non_fields' %}
+							{% bootstrap_field form.name layout='horizontal'%}
+							{% bootstrap_field form.regtask layout='horizontal'%}
+							{% bootstrap_field form.task layout='horizontal'%}         
+							{% bootstrap_field form.interval layout='horizontal'%}
+							{% bootstrap_field form.crontab layout='horizontal'%}
+							{% bootstrap_field form.args layout='horizontal'%}
+							{% bootstrap_field form.kwargs layout='horizontal'%}
+							{% bootstrap_field form.queue layout='horizontal'%}
+							{% bootstrap_field form.exchange layout='horizontal'%}
+							{% bootstrap_field form.routing_key layout='horizontal'%}
+							{% bootstrap_field form.expires layout='horizontal'%}
+							{% bootstrap_field form.enabled layout='horizontal'%}
+							{% bootstrap_field form.description layout='horizontal'%}
+						
+							
+							<div class="col-sm-4 col-sm-offset-5">
+                                <button type="submit" id="submit_button" class="btn btn-primary pull-center"> {%trans 'submit' %} </button>
+                     </div>
+							
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+{%endblock%}

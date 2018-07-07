@@ -1,0 +1,90 @@
+{%extends "base.html"%}
+{%load i18n%}
+{% block title %}{%trans 'Task list' %}{%endblock%}
+{% block content %}
+    <!-- Main content -->
+	<section class="content-header">
+	    <div class="">
+		<table id="tasklist" class="table table-hover table-striped " cellspacing="0" width="100%">
+			<thead>
+			    <tr>
+				<th>{%trans 'Name' %}</th>
+				<th>{%trans 'ID' %}</th>
+				<th>{%trans 'Runtime (second)' %}</th>
+				<th>{%trans 'State' %}</th>
+				<th>{%trans 'Recieved time' %}</th>
+			    </tr>
+			</thead>
+			<tbody id="task_list">
+			{%for task in task_list%}
+			    <tr>
+				<td>{{task.name}}</td>
+				<td>{{task.task_id}}</td>
+				<td>{{task.runtime}}</td>
+				<td>{{task.state}}</td>
+				<td>{{task.tstamp|date:"Y-m-d H:i:s"}}</td>
+			    </tr>
+			{%endfor%}
+			</tbody>
+		</table>
+	    </div>
+
+    </section>
+    <section class="content-header">
+<div class="col-sm-12">
+
+	{%load i18n%}
+<ul class="pagination pull-right">
+    {# Previous page link #}
+    {% if page_obj.has_previous %}
+    <li>
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    </li>
+    {% else %}
+    <li class="disabled">
+        <a href="#">Previous</a>
+    </li>
+    {% endif %}
+
+    {# First page #}
+    {% if show_first %}
+    <li>
+        <a href="?page=1">1...</a>
+    </li>
+    {% endif %}
+
+    {# List of pages (with current "active") #}
+    {% for page in page_numbers %}
+    {% ifequal page page_obj.number %}
+    <li class="active">
+        <a href="#">{{ page }}</a>
+    </li>
+    {% else %}
+    <li>
+        <a href="?page={{ page }}">{{ page }}</a>
+    </li>
+    {% endifequal %}
+    {% endfor %}
+
+    {# Last page #}
+    {% if show_last %}
+    <li><a href="?page=last">...{{ page_obj.paginator.num_pages }}</a></li>
+    {% endif %}
+
+    {# Next page link #}
+    {% if page_obj.has_next %}
+    <li>
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+    </li>
+    {% else %}
+    <li class="disabled">
+        <a href="#">Next</a>
+    </li>
+    {% endif %}
+</ul>
+    </section>
+    <!-- /.content -->
+{% endblock %}
+{%block	js%}
+
+{%endblock%}

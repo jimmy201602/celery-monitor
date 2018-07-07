@@ -1,0 +1,175 @@
+{%extends 'base.html'%}
+{%load i18n%}
+{%block title%}{%trans 'periodictask detail' %}{%endblock%}
+{%block content%}
+{%load dict_lookup%}
+
+<div class="wrapper-content">
+        <div class="row">
+				
+                
+            <div class="col-lg-10">
+                <div class="content float-e-margins">
+                    <div class="content">
+                        <form action="" class="form-horizontal nice-validator n-yellow" id="periodictask_detail"  novalidate="novalidate">						
+
+							<div class="form-group">
+                                <label class="col-sm-2 control-label" for="{{form.name.id_for_label}}">{%trans 'name' %}<span class="text-red">*</span></label>
+                                <div class="col-sm-7">
+									<input id="{{form.name.id_for_label}}" maxlength="100" name="{{form.name.name}}" type="text" class="form-control" required="" value="{{form.name.value}}" readonly/>
+									{% if form.name.errors %}<span style="color:red">
+									{% for error in form.name.errors%}
+									{{error|escape}}
+									{%endfor%}
+									</span>{%endif%}
+                                </div>	
+                            </div>
+				
+				
+							<div class="form-group">
+                                <label class="col-sm-2 control-label" for="{{form.task.id_for_label}}">{%trans 'Task (custom):' %}<span class="text-red">*</span></label>
+                                <div class="col-sm-7">
+									<input id="{{form.task.id_for_label}}" maxlength="100" name="{{form.task.name}}" type="text" class="form-control" required="" value="{{form.task.value}}" readonly/>
+									{% if form.task.errors %}<span style="color:red">
+									{% for error in form.task.errors%}
+									{{error|escape}}
+									{%endfor%}
+									</span>{%endif%}
+                                </div>	
+                            </div>
+							
+							
+                        <div class="form-group">
+                                <label for="{{form.interval.id_for_label}}" class="col-sm-2 control-label">{%trans 'interval' %}<span class="text-red">*</span></label>
+                                <div class="col-sm-7">
+                                    <select id="{{form.interval.id_for_label}}" name="{{form.interval.name}}" class="form-control m-b"  readonly>
+									{{form.interval|removetags:"select"|safe}}
+									</select>
+                                </div>
+                            </div>
+							
+							
+                        <div class="form-group">
+                                <label for="{{form.crontab.id_for_label}}" class="col-sm-2 control-label">{%trans 'crontab' %}<span class="text-red">*</span></label>
+                                <div class="col-sm-7">
+                                    <select id="{{form.crontab.id_for_label}}" name="{{form.crontab.name}}" class="form-control m-b" readonly>
+									{{form.crontab|removetags:"select"|safe}}
+									</select>
+                                </div>
+                            </div>
+							
+							
+                        <div class="form-group" >
+								<label for="{{form.args.id_for_label}}" class="col-sm-2 control-label" >{%trans 'Arguments:' %}<span class="text-red">*</span></label>
+								<div class="col-sm-7" readonly >
+								{{form.args|addcss:"form-control m-b"}}
+								{% if form.args.errors %}
+								<span style="color:red" >
+								{% for error in form.args.errors%}
+									{{error|escape}}
+									{%endfor%}
+								</span>{%endif%}
+								</div>
+							</div>
+
+                        <div class="form-group" >
+								<label for="{{form.kwargs.id_for_label}}" class="col-sm-2 control-label" >{%trans 'Keyword arguments:' %}<span class="text-red">*</span></label>
+								<div class="col-sm-7" readonly>
+								{{form.kwargs|addcss:"form-control m-b"}}
+								{% if form.kwargs.errors %}
+								<span style="color:red" >
+								{% for error in form.kwargs.errors%}
+									{{error|escape}}
+									{%endfor%}
+								</span>{%endif%}
+								</div>
+							</div>
+							
+
+                        <div class="form-group">
+                                <label for="{{form.regtask.id_for_label}}" class="col-sm-2 control-label">{%trans 'reg tasks:' %}<span class="text-red">*</span></label>
+                                <div class="col-sm-7">
+                                    <select id="{{form.regtask.id_for_label}}" name="{{form.regtask.name}}" class="form-control m-b" readonly>
+									{{form.regtask|removetags:"select"|safe}}
+									</select>
+                                </div>
+                            </div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="{{form.enabled.id_for_label}}">{%trans 'enabled' %}<span class="text-red">*</span></label>
+									<div class="col-sm-2" readonly>
+										{{form.enabled}}
+									</div>
+							</div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label" for="{{form.queue.id_for_label}}">{%trans 'queue' %}</label>
+                                <div class="col-sm-7">
+									<input id="{{form.queue.id_for_label}}" maxlength="100" name="{{form.queue.name}}" type="text" class="form-control" required="" {%if form.queue.value%} value="{{form.queue.value}}" {%else%} value="" {%endif%} readonly/>
+									{% if form.queue.errors %}<span style="color:red">
+									{% for error in form.queue.errors%}
+									{{error|escape}}
+									{%endfor%}
+									</span>{%endif%}
+                                </div>	
+                            </div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label" for="{{form.exchange.id_for_label}}">{%trans 'exchange' %}</label>
+                                <div class="col-sm-7">
+									<input id="{{form.exchange.id_for_label}}" maxlength="100" name="{{form.exchange.name}}" type="text" class="form-control" required="" {%if form.exchange.value%} value="{{form.exchange.value}}" {%else%} value="" {%endif%} readonly />
+									{% if form.exchange.errors %}<span style="color:red">
+									{% for error in form.exchange.errors%}
+									{{error|escape}}
+									{%endfor%}
+									</span>{%endif%}
+                                </div>	
+                            </div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label" for="{{form.routing_key.id_for_label}}">{%trans 'routing_key' %}</label>
+                                <div class="col-sm-7">
+									<input id="{{form.routing_key.id_for_label}}" maxlength="100" name="{{form.routing_key.name}}" type="text" class="form-control" required="" {%if form.routing_key.value%} value="{{form.routing_key.value}}" {%else%} value="" {%endif%} readonly />
+									{% if form.routing_key.errors %}<span style="color:red">
+									{% for error in form.routing_key.errors%}
+									{{error|escape}}
+									{%endfor%}
+									</span>{%endif%}
+                                </div>	
+                            </div>
+							
+                        <div class="form-group">
+                                <label class="col-sm-2 control-label" for="{{form.expires.id_for_label}}">{%trans 'expires' %}</label>
+                                <div class="col-sm-7">
+									<input id="{{form.expires.id_for_label}}" maxlength="100" name="{{form.expires.name}}" type="text" class="form-control" required="" readonly {%if form.expires.value%} value="{{form.expires.value}}" {%else%} value="" {%endif%} readonly />
+									{% if form.expires.errors %}<span style="color:red">
+									{% for error in form.expires.errors%}
+									{{error|escape}}
+									{%endfor%}
+									</span>{%endif%}
+                                </div>
+
+						</div>
+						
+						
+                        <div class="form-group" >
+								<label for="{{form.description.id_for_label}}" class="col-sm-2 control-label" >{%trans 'description' %}<span class="text-red">*</span></label>
+								<div class="col-sm-7" readonly >
+								{{form.description|addcss:"form-control m-b"}}
+								{% if form.description.errors %}
+								<span style="color:red" >
+								{% for error in form.description.errors%}
+									{{error|escape}}
+									{%endfor%}
+								</span>{%endif%}
+								</div>
+							</div>
+							
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+{%endblock%}

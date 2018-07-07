@@ -86,7 +86,7 @@ class queues_configuration(LoginRequiredMixin,View):
     def get(self,request):
         instance = CeleryClient()
         response = instance.active_queues()
-        return render_to_response('queues_configuration.html',locals())
+        return render_to_response('monitor/queues_configuration.html',locals())
     def post(self,request):
         pass
 
@@ -107,13 +107,13 @@ class workers_index(LoginRequiredMixin,View):
         ###user_language = 'en'
         #translation.activate(user_language)
         #request.session[translation.LANGUAGE_SESSION_KEY] = user_language
-        return render_to_response('workers.html',locals())
+        return render_to_response('monitor/workers.html',locals())
 
 class registered_tasks_index(LoginRequiredMixin,View):
     def get(self,request):
         instance = CeleryClient()
         response = instance.registered_tasks()
-        return render_to_response('registered_tasks.html',locals())
+        return render_to_response('monitor/registered_tasks.html',locals())
 
 class active_tasks_index(LoginRequiredMixin,View):
     def get(self,request):
@@ -121,7 +121,7 @@ class active_tasks_index(LoginRequiredMixin,View):
         response = instance.active_tasks()
         title = 'Active Tasks'
         action = 'terminate'
-        return render_to_response('active_tasks.html',locals())
+        return render_to_response('monitor/active_tasks.html',locals())
 
 class reserved_tasks_index(LoginRequiredMixin,View):
     def get(self,request):
@@ -129,13 +129,13 @@ class reserved_tasks_index(LoginRequiredMixin,View):
         response = instance.reserved_tasks()
         title='Reserved Tasks'
         action = 'revoke'
-        return render_to_response('active_tasks.html',locals())
+        return render_to_response('monitor/active_tasks.html',locals())
 
 class task_configuration(LoginRequiredMixin,View):
     def get(self,request):
         instance = CeleryClient()
         response = instance.worker_registered_tasks()
-        return render_to_response('task_configuration.html',locals())
+        return render_to_response('monitor/task_configuration.html',locals())
 
 class worker_status(LoginRequiredMixin,View):
     def get(self,request):
@@ -145,13 +145,13 @@ class worker_status(LoginRequiredMixin,View):
         reserved_tasks=instance.reserved_tasks()
         revoked_tasks=instance.revoked_tasks()
         scheduled_tasks=instance.scheduled_tasks()
-        return render_to_response('worker_status.html',locals())
+        return render_to_response('monitor/worker_status.html',locals())
 
 class pool_configuration(LoginRequiredMixin,View):
     def get(self,request):
         instance = CeleryClient()
         stats = instance.worker_stats
-        return render_to_response('pool_configuration.html',locals())
+        return render_to_response('monitor/pool_configuration.html',locals())
 
 class operations(LoginRequiredMixin,View):
     def get(self,request):
@@ -163,7 +163,7 @@ class operations(LoginRequiredMixin,View):
 
 class periodictaskcreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
     form_class = PeriodicTaskForm
-    template_name = 'periodictaskcreate.html'
+    template_name = 'monitor/periodictaskcreate.html'
     success_url = reverse_lazy('periodictask_list')
     success_message = "%(name)s was created successfully"
     model = PeriodicTask
@@ -180,7 +180,7 @@ class periodictaskcreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
 
 class periodictaskupdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     form_class = PeriodicTaskForm
-    template_name = 'periodictaskupdate.html'
+    template_name = 'monitor/periodictaskupdate.html'
     success_url = reverse_lazy('periodictask_list')
     success_message = "%(name)s was updated successfully"
     model = PeriodicTask
@@ -196,20 +196,20 @@ class periodictaskupdate(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
         return form
 
 class periodictasklist(LoginRequiredMixin,ListView):
-    template_name = 'periodictasklist.html'
+    template_name = 'monitor/periodictasklist.html'
     def get_queryset(self):
         return PeriodicTask.objects.all()
 
 class periodictaskdetail(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     form_class = PeriodicTaskForm
-    template_name = 'periodictaskdetail.html'
+    template_name = 'monitor/periodictaskdetail.html'
     success_url = reverse_lazy('periodictask_list')
     success_message = "%(name)s was updated successfully"
     model = PeriodicTask
 
 
 class periodictaskdelete(LoginRequiredMixin,DeleteView):
-    template_name = 'periodictaskdelete.html'
+    template_name = 'monitor/periodictaskdelete.html'
     model = PeriodicTask
     success_url = reverse_lazy('periodictask_list')
 
@@ -225,14 +225,14 @@ class periodictaskdelete(LoginRequiredMixin,DeleteView):
         return HttpResponseRedirect(self.get_success_url())
 
 class crontabcreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
-    template_name = 'crontabcreate.html'
+    template_name = 'monitor/crontabcreate.html'
     success_url = reverse_lazy('crontab_add')
     success_message = "crontab was created successfully"
     model = CrontabSchedule
     fields=['minute','hour','day_of_week','day_of_month','month_of_year']
 
 class intervalcreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
-    template_name = 'intervalcreate.html'
+    template_name = 'monitor/intervalcreate.html'
     success_url = reverse_lazy('interval_add')
     success_message = "interval was created successfully"
     model = IntervalSchedule
@@ -240,7 +240,7 @@ class intervalcreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
 
 class taskstatedetail(LoginRequiredMixin,DetailView):
     model = TaskState
-    template_name = 'taskstatedetail.html'
+    template_name = 'monitor/taskstatedetail.html'
 
 class run_task(LoginRequiredMixin,View):
     def get(self,request):
@@ -323,4 +323,4 @@ class task_state_chart(LoginRequiredMixin,View):
         start_time = (datetime.datetime.now() - datetime.timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')
         end_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')             
         task_name_list=TaskState.objects.order_by().values('name').distinct()
-        return render_to_response('taskstatechart.html',locals())
+        return render_to_response('monitor/taskstatechart.html',locals())

@@ -1,0 +1,115 @@
+{%extends "base.html"%}
+{%load i18n%}
+{% block title %}{%trans 'Queues Configuration' %}{%endblock%}
+{% block content %}
+
+{%load dict_lookup%}
+<!-- Main content -->
+       
+<!-- START CUSTOM TABS -->
+<div class="row">
+
+    <div class="col-md-12">
+        <!-- Custom Tabs -->
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+              {% for item,value in response.items%}
+                {%if forloop.counter == 1%}
+                <li class="active"><a href="#{{forloop.counter}}" data-toggle="tab">{{item}}  {%trans 'Worker queues options' %}</a></li>
+                {%else%}
+                <li class=""><a href="#{{forloop.counter}}" data-toggle="tab">{{item}} {%trans 'Worker queues options' %}</a></li>
+                {%endif%}
+              {%endfor%}
+          </ul>
+        <div class="tab-content">
+        <!-- /.tab-pane -->
+	{% if response.items %}
+        {% for item,value in response.items%}
+            {%now 'isu' as randomnum%}
+            {%if forloop.counter == 1%}
+            <div class="tab-pane active" id="{{forloop.counter}}">
+            {%else%}
+            <div class="tab-pane " id="{{forloop.counter}}">
+            {%endif%}
+            <div class="row">
+                <div class="col-md-12">
+                <div class="form-horizontal">
+                    <fieldset>
+                    <legend>{%trans 'Pool consumer control' %}</legend>
+
+                    <div class="control-group">
+                    <label class="control-label" for="min-autoscale"><h3>{%trans 'Active' %} <small>{%trans 'queues being consumed from' %}</small></h3></label>
+                    <div class="controls">
+                    <div class="input-append">
+                    <input class="input-mini" id="pool_consumer{{randomnum}}{{forloop.counter}}" size="25" type="text">
+							<button class="btn" type="button" onclick="on_pool_add_consumer('{{item}}','pool_consumer{{randomnum}}{{forloop.counter}}')">{%trans 'Add Consumer' %}</button>
+                    </div>
+                    </div>
+                    </div>
+                    </fieldset>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <section class="content-header">
+                        <table id="queues_list{{forloop.counter}}" class="table table-hover table-striped">
+						<thead>
+                        	<tr>
+                            <th>{%trans 'Name' %}</th>
+                            <th>{%trans 'Exclusive' %}</th>
+                            <th>{%trans 'Durable' %}</th>
+                            <th>{%trans 'Routing key' %}</th>
+                            <th>{%trans 'No ACK' %}</th>
+                            <th>{%trans 'Alias' %}</th>
+                            <th>{%trans 'Queue arguments' %}</th>
+                            <th>{%trans 'Binding arguments' %}</th>
+                            <th>{%trans 'Auto delete' %}</th>
+                            <th>{%trans 'Operation' %}</th>
+                        	</tr>
+                   		 </thead>
+                            <tbody>
+                            {% for queue in value%}
+                            <tr>
+                            <td>{{queue.name}}</td>
+                            <td>{{queue.exclusive}}</td>
+							<td>{{queue.durable}}</td>
+							<td>{{queue.routing_key}}</td>
+							<td>{{queue.no_ack}}</td>
+							<td>{{queue.alias}}</td>
+							<td>{{queue.queue_arguments}}</td>
+							<td>{{queue.binding_arguments}}</td>
+							<td>{{queue.auto_delete}}</td>
+							<td><button type="button" class="btn btn-danger" onclick="on_pool_cancel_consumer('{{item}}','{{queue.name}}')">{%trans 'Cancel Consumer' %}</button></td>
+                            </tr>
+                            {%endfor%}
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+            </div>
+            <!-- /.tab-pane -->
+        {% endfor %}
+	{% else %}
+	    {% trans 'No active worker!' %}
+	{% endif %}
+        </div>
+        <!-- /.tab-content -->
+        </div>
+    <!-- nav-tabs-custom -->
+    </div>
+<!-- /.col -->
+
+</div>
+<!-- /.row -->
+<!-- END CUSTOM TABS -->
+
+{% endblock %}
+{%block js%}
+<script>
+{% for item,value in response.items%}
+  $(function () {
+	$('#queues_list{{forloop.counter}}').DataTable();
+  });
+{%endfor%}
+</script>
+{%endblock%}

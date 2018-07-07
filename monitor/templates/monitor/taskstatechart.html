@@ -1,0 +1,452 @@
+{%extends 'base.html'%}
+{%load i18n%}
+{%block title%}{%trans 'Task state history chart' %}{%endblock%}
+{% load staticfiles %} 
+{% block css %}
+    <!-- select2 css -->
+    <link rel="stylesheet" href="{% static "select2/css/select2.min.css" %}">
+    <!-- select2 bootstrap css -->
+    <link rel="stylesheet" href="{% static "select2/css/select2-bootstrap.css" %}">
+	<style type="text/css">
+    	option {
+        width:300px;
+    	}
+    	li {
+    	 word-break: break-all;
+    	word-wrap: break-word;
+    	}
+   </style>
+{% endblock %}
+{% block js%}
+<script src="{% static "dist/js/highcharts.js" %}"></script>
+    <!-- select2 js -->
+<script src="{% static "select2/js/select2.min.js" %}"></script>
+<script>
+    $('.select2').select2();
+</script>
+<script type="text/javascript">
+	  $(function () {
+	  $('.datetime').daterangepicker({
+	  timePicker: true, 
+	  timePickerIncrement: 1, 
+	  format: 'YYYY-MM-DD HH:mm:ss',
+		timePickerSeconds:true,
+		autoApply:true,
+		singleDatePicker:true,  
+		timePicker24Hour:true,    
+		clearStatus:false,
+		autoUpdateInput: false,
+		locale: {
+			"format": 'YYYY-MM-DD HH:mm:ss'
+		}
+	  });
+	  
+		$('.datetime').on('apply.daterangepicker', function(ev, picker) {
+			$(this).val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
+		});
+  
+		$('.datetime').on('cancel.daterangepicker', function(ev, picker) {
+		$(this).val('');
+		});
+	  });  
+</script>
+<script type="application/javascript">
+$(document).ready(function() {
+$(".select2").bind("change", function() {
+	load_chart(this.options[this.selectedIndex].value); 
+ });
+$("#query").bind("click", function() {
+	task_name = $('.select2').val();
+	load_chart(task_name); 
+ }); 
+function load_chart(task_name) {
+		chart = new Highcharts.Chart('task_chart',options);
+		start_time = $('#id_start_time').val();
+		end_time =  $('#id_end_time').val();
+		$.getJSON('{% url "task_state_task_api"%}',{'task_name':task_name,'start_time':start_time,'end_time':end_time}, function (data) {
+			chart.setTitle({text: data.name});
+			chart.addSeries({
+					name: data.name,
+					data: data.data,
+			});
+	});
+		piechart = new Highcharts.Chart('pieChart',piechartoption);
+		$.getJSON('{% url "task_state_sucess_rate_api"%}',{'task_name':task_name,'start_time':start_time,'end_time':end_time}, function (datas) {
+			piechart.xAxis[0].setCategories(datas.task_name_cat, true, true);
+			piechart.setTitle({text: datas.name});
+			piechart.addSeries({
+				name: datas.name,
+				data: datas.data,
+				pointHeight: 28,
+			});
+		});
+		execute_bar_chart = new Highcharts.Chart('execute_bar_chart',coulumchartoption);
+		$.getJSON('{% url "task_state_execute_count_api"%}',{'task_name':task_name,'start_time':start_time,'end_time':end_time}, function (data) {
+			execute_bar_chart.xAxis[0].setCategories(data.task_name_cat, true, true);
+			execute_bar_chart.setTitle({text: data.name});
+			execute_bar_chart.yAxis[0].setTitle({ text: "" });
+			execute_bar_chart.addSeries({
+				name: data.name,
+				data: data.data,
+				pointHeight: 28,
+			});
+		});  		
+		columnchart = new Highcharts.Chart('max_runtime_chart',coulumchartoption);
+		$.getJSON('{% url "task_state_max_runtime_api"%}',{'task_name':task_name,'start_time':start_time,'end_time':end_time}, function (datas) {
+			columnchart.xAxis[0].setCategories(datas.task_name_cat, true, true);
+			//columnchart.setSize(500,1000);
+			columnchart.addSeries({
+				name: 'Max runtime',
+				data: datas.data,
+				pointHeight: 28,
+			});
+	});
+		var failure_count_chart;
+		failure_count_chart = new Highcharts.Chart('failure_count_chart',coulumchartoption);
+		$.getJSON('{% url "task_state_failure_count_api"%}',{'task_name':task_name,'start_time':start_time,'end_time':end_time}, function (data) {
+		failure_count_chart.xAxis[0].setCategories(data.task_name_cat, true, true);
+		//columnchart.setSize(500,1000);
+		failure_count_chart.setTitle({text: 'Task Failure Count'});
+		failure_count_chart.addSeries({
+			name: 'Task Failure Count',
+			data: data.data,
+			pointHeight: 28,
+		});
+	});
+}
+
+Highcharts.setOptions({
+    global: {
+        useUTC: false
+    }
+});
+
+var chart;
+var options = {
+	credits: {  
+        enabled: false,  
+    },
+
+    exporting: {
+			enabled: false,    
+    },  
+    
+    chart: {
+        type: 'line',
+        zoomType: 'x',
+        animation: true,
+    },
+    
+    title: {
+        text: 'Task name'
+    },
+    xAxis: {
+        type: 'datetime'
+    },
+    yAxis: {
+        title: {
+            text: 'Runtime (Seconds)'
+        }
+    },
+    series: []
+}  
+chart = new Highcharts.Chart('task_chart',options);
+$.getJSON('{% url "task_state_task_api"%}',{'task_name':'celerymonitor.celeryapp.debug_task'}, function (data) {
+	//alert(data);
+	chart.setTitle({text: data.name});
+	chart.addSeries({
+		name: data.name,
+		data: data.data,
+	});
+   });
+
+var columnchart;
+var coulumchartoption = {
+	credits: {  
+        enabled: false,  
+    },
+    
+    plotOptions: {
+			bar: {
+				colorByPoint: true,
+            },
+			series: {
+					pointWidth: 20,
+					pointPadding: 0.3,
+					groupPadding: 0,
+					point: {
+						events: {
+								click: function() {
+										var attr = ['failure_count','execute_count'];  
+										var result = $.inArray(this.category, attr);
+										if (result == -1) {
+											load_chart(this.category);
+										}
+                        }
+                    }
+                }
+            },
+    },
+    
+    exporting: {
+			enabled: false,    
+    },  
+    
+    chart: {
+			type: 'bar',
+    },
+     
+    title: {
+        text: 'Max runtime'
+    },
+    xAxis: {
+        //type: 'datetime'
+        categories: [],
+    },
+    yAxis: {
+        title: {
+            text: 'Runtime (Seconds)'
+        }
+    },
+    series: []
+}  
+columnchart = new Highcharts.Chart('max_runtime_chart',coulumchartoption);
+$.getJSON('{% url "task_state_max_runtime_api"%}', function (datas) {
+	columnchart.xAxis[0].setCategories(datas.task_name_cat, true, true);
+	//columnchart.setSize(500,1000);
+	columnchart.addSeries({
+			name: 'Max runtime',
+			data: datas.data,
+			pointHeight: 28,
+		});
+   });
+var failure_count_chart;
+failure_count_chart = new Highcharts.Chart('failure_count_chart',coulumchartoption);
+$.getJSON('{% url "task_state_failure_count_api"%}', function (data) {
+	failure_count_chart.xAxis[0].setCategories(data.task_name_cat, true, true);
+	//columnchart.setSize(500,1000);
+	failure_count_chart.setTitle({text: 'Task Failure Count'});
+	failure_count_chart.addSeries({
+			name: 'Task Failure Count',
+			data: data.data,
+			pointHeight: 28,
+		});
+   });
+   
+var execute_bar_chart;
+execute_bar_chart = new Highcharts.Chart('execute_bar_chart',coulumchartoption);
+$.getJSON('{% url "task_state_execute_count_api"%}',{'task_name':'celerymonitor.celeryapp.debug_task'}, function (data) {
+	//alert(datas)
+	execute_bar_chart.xAxis[0].setCategories(data.task_name_cat, true, true);
+	execute_bar_chart.setTitle({text: data.name});
+	execute_bar_chart.yAxis[0].setTitle({ text: "" });
+	execute_bar_chart.addSeries({
+			name: data.name,
+			data: data.data,
+			pointHeight: 28,
+		});
+   });  
+ var piechart;
+ var piechartoption={
+
+        chart: {
+            type: 'pie',
+        },
+
+        title: {
+            text: 'demo'
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'bottom',
+            y: 30,
+            labelFormat: '{name} ({y})',
+            navigation: {
+                activeColor: '#3E576F',
+                animation: true,
+                arrowSize: 12,
+                inactiveColor: '#CCC',
+                style: {
+                    fontWeight: 'bold',
+                    color: '#333',
+                    fontSize: '12px'    
+                }
+            }
+        },
+    tooltip: {
+            formatter: function() {
+                return Highcharts.numberFormat(this.percentage, 2) + '%<br />' + '<b>' + this.point.name + '</b><br />Total.: ' + Highcharts.numberFormat(this.y, 2);
+            }
+        },
+        series: [],
+
+    }
+piechart = new Highcharts.Chart('pieChart',piechartoption);
+$.getJSON('{% url "task_state_sucess_rate_api"%}',{'task_name':'celerymonitor.celeryapp.debug_task'}, function (datas) {
+	//alert(datas)
+	piechart.xAxis[0].setCategories(datas.task_name_cat, true, true);
+	piechart.setTitle({text: datas.name});
+	piechart.addSeries({
+			name: datas.name,
+			data: datas.data,
+			pointHeight: 28,
+		});
+   });
+  });
+</script>
+{% endblock %}
+{%block content%}
+{%load dict_lookup%}
+{%load bootstrap3%}
+
+<div class="wrapper-content"> 
+    <!-- Main content -->
+    <section class="content">
+		<div class="col-md-12">
+			<div class="col-md-12">
+    			<form class="form-inline" role="form">
+      			<div class="form-group form-group-sm">
+						<label for="task_name">Task Name:</label>
+						<select class="form-control input-sm select2">
+							{% for task_name in task_name_list %}
+								<option name="{{task_name.name}}" value="{{task_name.name}}">{{task_name.name}}</option>
+							{% endfor %}
+						</select>  
+      			</div>
+				<div class="form-group form-group-sm">
+						<label for="start_time">Start Time:</label>
+						<input class="form-control input-sm datetime" id="id_start_time" maxlength="" name="start_time" placeholder="Start Time" required="required" value="{{ start_time }}" type="text">
+				</div>
+				<div class="form-group form-group-sm">
+						<label for="end_time">End Time:</label>
+						<input class="form-control input-sm datetime" id="id_end_time" maxlength="" name="end_time" placeholder="End Time" required="required" value="{{ end_time }}" type="text">
+				</div>
+				<div class="form-group form-group-sm">
+					<a class="btn btn-block btn-success btn-sm" id="query">Query</a>
+				</div>
+     			</form>
+			</div> 
+		</div> 
+      <div class="row">
+        <div class="col-md-6">
+          <!-- AREA CHART -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Max Runtime Chart</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <div class="box-body" id="max_runtime_chart">
+              <div class="chart" >
+                <!--<canvas id="areaChart" style="height:250px"></canvas>-->
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          <!-- DONUT CHART -->
+          <div class="box box-danger">
+            <div class="box-header with-border">
+              <h3 class="box-title">Task Runtime Line Chart</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <div class="box-body" id="task_chart">
+              <!--<canvas id="pieChart" style="height:250px"></canvas>-->
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col (LEFT) -->
+        <div class="col-md-6">
+          <!-- LINE CHART -->
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Failure Count Bar Chart</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="chart" id="failure_count_chart">
+                <!--<canvas id="lineChart" style="height:250px"></canvas>-->
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          <!-- BAR CHART -->
+          <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">Task Sucess Failure Rating Pie CHART</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="chart" id="pieChart">
+                <!--<canvas id="barChart" style="height:230px"></canvas>-->
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col (RIGHT) -->
+        <div class="col-md-6">
+          <!-- LINE CHART -->
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Task Execute Count Chart</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="chart" id="execute_bar_chart">
+                <!--<canvas id="lineChart" style="height:250px"></canvas>-->
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col (RIGHT) -->
+      </div>
+      <!-- /.row -->
+
+    </section>
+    <!-- /.content -->
+    
+    </div>
+    
+{%endblock%}

@@ -1,0 +1,82 @@
+{%extends "base.html"%}
+{%load i18n%}
+{% block title %}{%trans 'Workers' %}{%endblock%}
+{% block content %}
+    <!-- Main content -->
+	<section class="content-header">
+	    <div class="">
+		<table id="workers_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			<thead>
+			    <tr>
+				<th>{%trans 'Name' %}</th>
+				<th>{%trans 'Status' %}</th>
+				<th>{%trans 'Concurrency' %}</th>
+				<th>{%trans 'Queues' %}</th>
+				<th>{%trans 'Completed Tasks' %}</th>
+				<th>{%trans 'Action' %}</th>
+			    </tr>
+			</thead>
+			<tbody id="workers">
+			{%for item in response%}
+			    <tr>
+				<td>{{item.name}}</td>
+				{%ifequal item.status 'Active'%}
+				    <td class="btn btn-success">{%trans 'Online' %}</td>
+				{%else%}
+				    <td class="btn btn-danger">{%trans 'Offline' %}</td>
+				{%endifequal%}
+				<td>{{item.concurrency}}</td>
+				<td>{% if item.queues%}{%for queue in item.queues%}{{queue}}{%if not forloop.last%},{%endif%}{%endfor%}{%endif%}</td>
+				<td>{{item.complete}}</td>
+				<td>
+					<button type="button" onclick="on_worker_shutdown('{{item.name}}')" class="btn btn-danger">{%trans 'shut down' %}</button>
+					<button type="button" onclick="on_worker_restart('{{item.name}}')" class="btn btn-primary">{%trans 'restart' %}</button>
+					<button type="button" onclick="on_worker_ping('{{item.name}}')" class="btn btn-warning">{%trans 'ping' %}</button>
+				</td>
+			    </tr>
+			{%endfor%}
+			</tbody>
+		</table>
+	    </div>
+    </section>
+    <!-- /.content -->
+{% endblock %}
+{%block	js%}
+<script>
+<!--$(document).ready(function () {-->
+    <!--get_worker_list();-->
+    <!--setInterval("get_worker_list()", 10000);  -->
+<!--})-->
+function get_worker_list(){
+	$.get('{% url 'workers' %}', function (ret) {
+		$('#workers').empty();
+		for (var i = 0; i < ret.length; i++) {
+		    $('#workers').append("<tr>");
+		    $('#workers').append("<td>"+ret[i].name+"</td>");
+		    if (ret[i].status == 'Active'){
+			$('#workers').append("<td class='btn btn-success'>Online</td>");
+		    }else{
+			$('#workers').append("<td class='btn btn-danger'>Offline</td>");
+		    }
+		    $('#workers').append("<td>"+ret[i].concurrency+"</td>");
+		    $('#workers').append("<td><button type='button' class='btn btn-danger'>shut down</button><button type='button' class='btn btn-primary'>restart</button></td>");
+		    $('#workers').append("</tr>");
+		}
+		}, 'json');
+    };
+
+</script>
+<script>
+  $(function () {
+	$('#workers_list').DataTable({
+	  "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+	  "iDisplayLength": 50,
+      "autoWidth": true
+	});
+  });
+</script>
+{%endblock%}

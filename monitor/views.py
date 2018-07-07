@@ -135,20 +135,16 @@ class task_configuration(LoginRequiredMixin,View):
     def get(self,request):
         instance = CeleryClient()
         response = instance.worker_registered_tasks()
-        #print response
         return render_to_response('task_configuration.html',locals())
 
 class worker_status(LoginRequiredMixin,View):
     def get(self,request):
         instance = CeleryClient()
         stats = instance.worker_stats
-        #print stats
         active_tasks=instance.active_tasks()
         reserved_tasks=instance.reserved_tasks()
         revoked_tasks=instance.revoked_tasks()
-        #print revoked_tasks
         scheduled_tasks=instance.scheduled_tasks()
-        #print active_tasks
         return render_to_response('worker_status.html',locals())
 
 class pool_configuration(LoginRequiredMixin,View):
@@ -161,9 +157,6 @@ class operations(LoginRequiredMixin,View):
     def get(self,request):
         command = self.request.GET.get('command','')
         parameter = json.loads(self.request.GET.get('parameter',''))
-        #print 'get',self.request.GET
-        #print 'command',command
-        #print 'parameter',parameter
         instance = CeleryClient()
         response = instance.execute(command, parameter)
         return HttpResponse(json.dumps(response),content_type="application/json")
@@ -330,5 +323,4 @@ class task_state_chart(LoginRequiredMixin,View):
         start_time = (datetime.datetime.now() - datetime.timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')
         end_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')             
         task_name_list=TaskState.objects.order_by().values('name').distinct()
-        #print task_name_list
         return render_to_response('taskstatechart.html',locals())

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-07 22:27+0800\n"
+"POT-Creation-Date: 2018-07-07 23:09+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -187,8 +187,10 @@ msgid "Copyright &copy; 2014-2016"
 msgstr ""
 
 #: monitor/templates/monitor/change_list_base.html:329
-msgid "Almsaeed Studio"
-msgstr ""
+#, fuzzy
+#| msgid "Task monitor"
+msgid "Celery monitor"
+msgstr "任务监控"
 
 #: monitor/templates/monitor/change_list_base.html:329
 msgid "All rights reserved."

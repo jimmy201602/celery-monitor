@@ -102,11 +102,11 @@ class workers_index(LoginRequiredMixin,View):
         #print c - b
         #print c - a
         #print response
-        #from django.utils import translation
-        #user_language = 'zh-hans'
+        # from django.utils import translation
+        # user_language = 'zh-hans'
         ###user_language = 'en'
-        #translation.activate(user_language)
-        #request.session[translation.LANGUAGE_SESSION_KEY] = user_language
+        # translation.activate(user_language)
+        # request.session[translation.LANGUAGE_SESSION_KEY] = user_language
         return render_to_response('monitor/workers.html',locals())
 
 class registered_tasks_index(LoginRequiredMixin,View):

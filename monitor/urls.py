@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from djcelery.models import TaskState
 from djcelery.admin import TaskMonitor
-from .sites import site
+from monitor.modifiedadmin import site
 from django.contrib.admin.views.main import ChangeList
 from monitor.views import (
     workers,tasks,active_tasks,active_queues,reserved_tasks,
@@ -50,7 +50,7 @@ class Mychangelist(ChangeList):
         pk = getattr(result, self.pk_attname)
         return '/monitor/taskstate/%d/' %(pk)
 
-class permission_modify(TaskMonitor):
+class PermissionModify(TaskMonitor):
     change_list_template = 'monitor/change_list.html'
     list_per_page = 15
     actions = None
@@ -61,7 +61,7 @@ class permission_modify(TaskMonitor):
         return Mychangelist
     def has_change_permission(self, request, obj=None):
         return True
-site.register(TaskState,permission_modify)
+site.register(TaskState,PermissionModify)
 
 urlpatterns += [
     url(r'', include(site.urls)),

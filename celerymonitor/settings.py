@@ -144,6 +144,7 @@ BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_TASK_RESULT_EXPIRES = 1200
 CELERY_APPLICATION_PATH = 'celeryproj.celery.app'
 CELERY_ENABLE_UTC=True
+# CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
 '''
 Task hard time limit in seconds.
 The worker processing the task will be killed and replaced with a new one when this is exceeded.

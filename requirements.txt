@@ -28,3 +28,4 @@ six==1.10.0
 Twisted==20.3.0
 txaio==2.8.1
 zope.interface==4.4.2
+djangorestframework==3.6.4

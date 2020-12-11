@@ -26,6 +26,14 @@ from django.db.models import Max,Count
 import time
 from django.utils.timezone import localtime
 import datetime
+import ast
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from celerymonitor.celeryapp import app as celeryprojapp
+from .models import actionlog
+from django.contrib.auth.models import User
+
+
 
 class workers(LoginRequiredMixin,View):
     def get(self,request):
@@ -261,6 +269,51 @@ class run_task(LoginRequiredMixin,View):
         res = current_app.send_task(task_name,args=args,kwargs=kwargs,queue=queue,routing_key=routing_key)
         response = {'status':'success','message':'task name %s has been running,task id is %s' %(name,res.id) }
         return HttpResponse(json.dumps(response),content_type="application/json")
+
+class RunTaskApi(APIView):
+    def post(self,request,format=None):
+        name = self.request.data.get('name',None)
+        args = self.request.data.get('args',None)
+        kwargs = self.request.data.get('kwargs',None)
+        queue = self.request.data.get('queue',None)
+        if args is not None:
+            if not isinstance(args,list):
+                try:
+                    args = json.loads(args)
+                except Exception,e:
+                    args = args
+        if kwargs is not None:
+            try:
+                kwargs = json.loads(kwargs)
+            except Exception,e:
+                kwargs = kwargs
+        try:
+            querry_res = PeriodicTask.objects.get(name=name)
+            if args is None:
+                args = json.loads(querry_res.args)
+            else:
+                args.extend(json.loads(querry_res.args))
+            if kwargs is None:
+                kwargs = json.loads(querry_res.kwargs)
+            else:
+                kwargs.update(kwargs)
+            if queue is None:
+                queue = querry_res.queue
+            routing_key = querry_res.routing_key
+            task_name = querry_res.task
+        except ObjectDoesNotExist:
+            response = {'status':False,'message':'task name %s doesn\'t exits' %(name) }
+            actionlog.objects.create(user=User.objects.get(username=self.request.user),action='run task',detail=json.dumps(self.request.data))
+            return Response(response)
+        if queue == 'None' or queue == None:
+            queue = 'celery'
+        res = celeryprojapp.send_task(task_name,args=args,kwargs=kwargs,queue=queue,routing_key=routing_key)
+        response = {'status':True,'message':'task name %s has been running,task id is %s' %(name,res.id) }
+        try:
+            actionlog.objects.create(user=User.objects.get(username=self.request.user),action='run task',detail=json.dumps({'request':self.request.data,'task_nmae':name,'task':task_name}))
+        except Exception,e:
+            print e
+        return Response(response)
 
 class task_state_task_api(LoginRequiredMixin,View):
     def get(self,request):

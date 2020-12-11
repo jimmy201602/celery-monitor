@@ -24,6 +24,6 @@ pytz==2016.10
 redis==2.10.5
 simplejson==3.10.0
 six==1.10.0
-Twisted==17.5.0
+Twisted==20.3.0
 txaio==2.8.1
 zope.interface==4.4.2

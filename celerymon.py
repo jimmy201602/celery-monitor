@@ -21,7 +21,6 @@ class CeleryprojMonitorCamera(Camera):
 
         def _handle_tasks():
             for i, task in enumerate(state.tasks.items()):
-                print(task)
                 self.handle_task(task)
         
         try:

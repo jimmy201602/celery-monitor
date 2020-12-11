@@ -144,7 +144,7 @@ CELERY_TIMEZONE = 'Asia/Shanghai'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_TASK_RESULT_EXPIRES = 1200
-CELERY_APPLICATION_PATH = 'celeryproj.celery.app'
+CELERY_APPLICATION_PATH = 'celerymonitor.celeryapp.app'
 CELERY_ENABLE_UTC=True
 # CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
 '''
@@ -153,12 +153,25 @@ The worker processing the task will be killed and replaced with a new one when t
 '''
 CELERYD_TASK_TIME_LIMIT = 86400
 # CELERYD_TASK_TIME_LIMIT = 10
+CELERYD_CONCURRENCY=30
+
+#CELERYBEAT_LOG_LEVEL=INFO
+
+#CELERYD_LOG_LEVEL=INFO
 '''
 Task soft time limit in seconds.
 The SoftTimeLimitExceeded exception will be raised when this is exceeded. The task can catch this to e.g.
 clean up before the hard time limit comes.
 '''
 CELERYD_TASK_SOFT_TIME_LIMIT = 80000
+
+CELERY_IMPORTS = ("celerymonitor.tasks",)
+CELERY_REDIS_MAX_CONNECTIONS = 0
+
+#send celerymon
+CELERY_SEND_EVENTS = True
+CELERYD_POOL_RESTARTS = True
+CELERYD_MAX_TASKS_PER_CHILD = 50
 
 #TEMPLATE_DEBUG = True
 #from celery.schedules import crontab

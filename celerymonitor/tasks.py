@@ -6,6 +6,7 @@ try:
 except ImportError:
     pass
 
+
 @shared_task(bind=True)
 def debug_task(self):
     # dumps its own request information

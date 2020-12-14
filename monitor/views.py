@@ -30,7 +30,7 @@ import ast
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from celerymonitor.celeryapp import app as celeryprojapp
-from .models import actionlog
+from .models import ActionLog
 from django.contrib.auth.models import User
 
 
@@ -303,14 +303,14 @@ class RunTaskApi(APIView):
             task_name = querry_res.task
         except ObjectDoesNotExist:
             response = {'status':False,'message':'task name %s doesn\'t exits' %(name) }
-            actionlog.objects.create(user=User.objects.get(username=self.request.user),action='run task',detail=json.dumps(self.request.data))
+            ActionLog.objects.create(user=User.objects.get(username=self.request.user),action='run task',detail=json.dumps(self.request.data))
             return Response(response)
         if queue == 'None' or queue == None:
             queue = 'celery'
         res = celeryprojapp.send_task(task_name,args=args,kwargs=kwargs,queue=queue,routing_key=routing_key)
         response = {'status':True,'message':'task name %s has been running,task id is %s' %(name,res.id) }
         try:
-            actionlog.objects.create(user=User.objects.get(username=self.request.user),action='run task',detail=json.dumps({'request':self.request.data,'task_nmae':name,'task':task_name}))
+            ActionLog.objects.create(user=User.objects.get(username=self.request.user),action='run task',detail=json.dumps({'request':self.request.data,'task_nmae':name,'task':task_name}))
         except Exception,e:
             print e
         return Response(response)

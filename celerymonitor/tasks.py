@@ -37,4 +37,3 @@ def debug_task(self):
     """https://stackoverflow.com/questions/4624416/is-there-a-possibility-to-execute-a-python-script-while-being-in-interactive-mod"""
 
     """https://stackoverflow.com/questions/163542/python-how-do-i-pass-a-string-into-subprocess-popen-using-the-stdin-argument"""
-    """https://mail.python.org/pipermail/python-list/2015-March/688077.html"""

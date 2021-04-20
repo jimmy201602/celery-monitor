@@ -4,7 +4,7 @@ appdirs==1.4.3
 asgi-redis==1.4.2
 asgiref==1.1.2
 attrs==19.2.0
-autobahn==17.7.1
+autobahn==20.12.3
 Automat==0.6.0
 billiard==3.3.0.23
 celery==3.1.25
